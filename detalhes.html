@@ -134,5 +134,191 @@
 
         </section>
 
+        <section
+            class="secao-descricao"
+        >
+
+            <header class="cabecalho-secao">
+
+                <h2 id="titulo-descricao">
+                    Sobre o álbum
+                </h2>
+
+            </header>
+
+            <p id="descricao-conteudo">
+                Conheça mais sobre este álbum, suas características
+                e informações de lançamento.
+            </p>
+
+            <dl class="lista-informacoes">
+
+                <div class="item-informacao">
+
+                    <dt>Artista</dt>
+
+                    <dd id="detalhe-artista">
+                        The Weeknd
+                    </dd>
+
+                </div>
+
+                <div class="item-informacao">
+
+                    <dt>Ano de lançamento</dt>
+
+                    <dd id="detalhe-ano">
+                        2020
+                    </dd>
+
+                </div>
+
+                <div class="item-informacao">
+
+                    <dt>Gênero</dt>
+
+                    <dd id="detalhe-genero">
+                        R&B / Pop
+                    </dd>
+
+                </div>
+
+                <div class="item-informacao">
+
+                    <dt>Quantidade de faixas</dt>
+
+                    <dd id="quantidade-faixas">
+                        14 músicas
+                    </dd>
+
+                </div>
+
+            </dl>
+
+        </section>
+
+        <!-- Formulário de avaliação e resenha -->
+
+        <section
+            class="secao-avaliacao"
+            id="formulario-avaliacao"
+        >
+
+            <header class="cabecalho-secao">
+
+                <h2 id="titulo-avaliacao">
+                    Sua avaliação
+                </h2>
+
+                <p>
+                    Compartilhe sua opinião sobre este álbum.
+                </p>
+
+            </header>
+
+            <form id="formulario-criar-avaliacao">
+
+                <!-- Seleção da nota -->
+                <fieldset class="campo-formulario">
+
+                    <legend>Qual nota você dá para este álbum?</legend>
+
+                    <div class="opcoes-nota">
+
+                        <label for="nota-1">
+                            <input
+                                type="radio"
+                                id="nota-1"
+                                name="nota"
+                                value="1"
+                                required
+                            >
+                            1 ★
+                        </label>
+
+                        <label for="nota-2">
+                            <input
+                                type="radio"
+                                id="nota-2"
+                                name="nota"
+                                value="2"
+                            >
+                            2 ★
+                        </label>
+
+                        <label for="nota-3">
+                            <input
+                                type="radio"
+                                id="nota-3"
+                                name="nota"
+                                value="3"
+                            >
+                            3 ★
+                        </label>
+
+                        <label for="nota-4">
+                            <input
+                                type="radio"
+                                id="nota-4"
+                                name="nota"
+                                value="4"
+                            >
+                            4 ★
+                        </label>
+
+                        <label for="nota-5">
+                            <input
+                                type="radio"
+                                id="nota-5"
+                                name="nota"
+                                value="5"
+                            >
+                            5 ★
+                        </label>
+
+                    </div>
+
+                </fieldset>
+
+                <!-- Texto da resenha -->
+                <div class="campo-formulario">
+
+                    <label for="texto-resenha">
+                        Escreva sua resenha
+                    </label>
+
+                    <textarea
+                        id="texto-resenha"
+                        name="resenha"
+                        rows="5"
+                        maxlength="1000"
+                        placeholder="O que você achou deste álbum?"
+                    ></textarea>
+
+                </div>
+
+                <!-- Envio da avaliação -->
+                <div class="acoes-formulario">
+
+                    <button
+                        type="reset"
+                        class="botao-secundario"
+                    >
+                        Limpar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="botao"
+                    >
+                        Publicar avaliação
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
 </body>
 </html>
