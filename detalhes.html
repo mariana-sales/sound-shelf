@@ -320,5 +320,293 @@
 
         </section>
 
+        <!-- Adicionar o álbum a uma coleção -->
+
+        <section
+            class="secao-adicionar-colecao"
+            id="formulario-adicionar-colecao"
+        >
+
+            <header class="cabecalho-secao">
+
+                <h2 id="titulo-adicionar-colecao">
+                    Adicionar à coleção
+                </h2>
+
+                <p>
+                    Organize este álbum em uma de suas coleções.
+                </p>
+
+            </header>
+
+            <form id="formulario-selecionar-colecao">
+
+                <div class="campo-formulario">
+
+                    <label for="selecionar-colecao">
+                        Escolha uma coleção
+                    </label>
+
+                    <select
+                        id="selecionar-colecao"
+                        name="colecao"
+                        required
+                    >
+
+                        <option value="">
+                            Selecione uma coleção
+                        </option>
+
+                        <option value="colecao-1">
+                            Álbuns de rock
+                        </option>
+
+                        <option value="colecao-2">
+                            Para ouvir depois
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <button type="submit" class="botao">
+                    Adicionar álbum
+                </button>
+
+                <a href="colecoes.html" class="link">
+                    Gerenciar coleções
+                </a>
+
+            </form>
+
+        </section>
+
+        <!-- Lista de músicas do álbum -->
+
+        <section
+            class="secao-faixas"
+        >
+
+            <header class="cabecalho-secao">
+
+                <h2 id="titulo-faixas">
+                    Faixas do álbum
+                </h2>
+
+                <span id="total-faixas">
+                    3 faixas de exemplo
+                </span>
+
+            </header>
+
+            
+            <ol class="lista-faixas">
+
+                <li class="item-faixa">
+
+                    <span class="numero-faixa">1</span>
+
+                    <div class="informacoes-faixa">
+
+                        <h3>
+                            <a href="#" class="link">
+                                Blinding Lights
+                            </a>
+                        </h3>
+
+                        <p>The Weeknd</p>
+
+                    </div>
+
+                    <span class="duracao-faixa">
+                        3:20
+                    </span>
+
+                </li>
+
+                <li class="item-faixa">
+
+                    <span class="numero-faixa">2</span>
+
+                    <div class="informacoes-faixa">
+
+                        <h3>
+                            <a href="#" class="link">
+                                Save Your Tears
+                            </a>
+                        </h3>
+
+                        <p>The Weeknd</p>
+
+                    </div>
+
+                    <span class="duracao-faixa">
+                        3:35
+                    </span>
+
+                </li>
+
+                <li class="item-faixa">
+
+                    <span class="numero-faixa">3</span>
+
+                    <div class="informacoes-faixa">
+
+                        <h3>
+                            <a href="#" class="link">
+                                After Hours
+                            </a>
+                        </h3>
+
+                        <p>The Weeknd</p>
+
+                    </div>
+
+                    <span class="duracao-faixa">
+                        6:01
+                    </span>
+
+                </li>
+
+            </ol>
+
+        </section>
+
+        <!--  Avaliações e resenhas da comunidade -->
+
+        <section
+            class="secao-resenhas"
+        >
+
+            <header class="cabecalho-secao">
+
+                <h2 id="titulo-resenhas">
+                    Avaliações da comunidade
+                </h2>
+
+                <span id="quantidade-resenhas">
+                    2 resenhas de exemplo
+                </span>
+
+            </header>
+
+            <div class="lista-resenhas">
+
+                <!-- Primeira resenha demonstrativa -->
+                <article class="card-resenha">
+
+                    <header class="cabecalho-resenha">
+
+                        <a href="perfil.html" class="link-perfil">
+
+                            <img
+                                src=""
+                                alt="Foto de perfil de usuário"
+                            >
+
+                        </a>
+
+                        <div class="informacoes-usuario">
+
+                            <h3>
+                                <a href="perfil.html" class="link">
+                                    Usuário exemplo
+                                </a>
+                            </h3>
+
+                            <span class="data-resenha">
+                                Avaliação demonstrativa
+                            </span>
+
+                        </div>
+
+                        <div class="avaliacao">
+
+                            <span>★</span>
+
+                            <span>5,0</span>
+
+                        </div>
+
+                    </header>
+
+                    <div class="conteudo-resenha">
+
+                        <p>
+                            Um álbum que merece ser ouvido com atenção.
+                            A combinação de estilos e a produção
+                            tornam a experiência marcante.
+                        </p>
+
+                    </div>
+
+                </article>
+
+                <!-- Segunda resenha demonstrativa -->
+                <article class="card-resenha">
+
+                    <header class="cabecalho-resenha">
+
+                        <a href="perfil.html" class="link-perfil">
+
+                            <img
+                                src=""
+                                alt="Foto de perfil de usuário"
+                            >
+
+                        </a>
+
+                        <div class="informacoes-usuario">
+
+                            <h3>
+                                <a href="perfil.html" class="link">
+                                    Outro usuário
+                                </a>
+                            </h3>
+
+                            <span class="data-resenha">
+                                Avaliação demonstrativa
+                            </span>
+
+                        </div>
+
+                        <div class="avaliacao">
+
+                            <span>★</span>
+
+                            <span>4,0</span>
+
+                        </div>
+
+                    </header>
+
+                    <div class="conteudo-resenha">
+
+                        <p>
+                            Gostei bastante do álbum, principalmente
+                            da atmosfera das músicas e da identidade
+                            sonora do artista.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!--Rodapé padrão do Sound Shelf -->
+
+    <footer class="rodape">
+
+        <p>Projeto acadêmico</p>
+
+        <p>&copy; 2026 Sound Shelf</p>
+
+    </footer>
+
 </body>
 </html>
