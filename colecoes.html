@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- cabeçalho/navegação -->
+    <header class="cabecalho">
+        <img src="" alt="logo sound shelf">
+        <p class="logo">Sound Shelf</p>
+
+        <!-- navegacao principal -->
+        <nav class="nav-principal">
+            <a href="index.html" class="link">Home</a>
+            <a href="perfil.html" class="link">Perfil</a>
+            <a href="colecoes.html" class="link">Coleções</a>
+        </nav>
+
+        <!-- form de pesquisa -->
+        <form class="form-pesquisa">
+
+            <label for="pesquisa" class="input-estilo">
+                Pesquisar
+            </label>
+
+            <input
+                type="search"
+                id="pesquisa"
+                name="pesquisa"
+                placeholder="Pesquisar">
+
+            <button type="submit" class="botao">Buscar</button>
+        </form>
+    </header>
+
+
+    <main>
+        <!-- Apresentação da página -->
+        <section class="cabecalho-pagina">
+
+            <div>
+
+                <p class="texto-pequeno">
+                    ORGANIZAÇÃO
+                </p>
+
+                <h1>Minhas coleções</h1>
+
+                <p>
+                    Organize músicas e álbuns de acordo com seus gostos.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="botao"
+                id="botao-nova-colecao"
+                aria-controls="formulario-colecao"
+            >
+                + Nova coleção
+            </button>
+
+        </section>
+
+
+
+        <section
+            class="formulario-colecao"
+            id="formulario-colecao"
+            aria-labelledby="titulo-formulario-colecao"
+        >
+
+            <header class="cabecalho-secao">
+
+                <h2 id="titulo-formulario-colecao">
+                    Criar coleção
+                </h2>
+
+            </header>
+
+            <form id="formulario-criar-colecao">
+
+                <!-- Nome da coleção -->
+                <div class="campo-formulario">
+
+                    <label for="nome-colecao">
+                        Nome da coleção
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nome-colecao"
+                        name="nome"
+                        placeholder="Ex.: Melhores de 2026"
+                        maxlength="60"
+                        required
+                    >
+
+                </div>
+
+                <!-- Descrição da coleção -->
+                <div class="campo-formulario">
+
+                    <label for="descricao-colecao">
+                        Descrição
+                    </label>
+
+                    <textarea
+                        id="descricao-colecao"
+                        name="descricao"
+                        rows="4"
+                        maxlength="300"
+                        placeholder="Descreva sua coleção..."
+                    ></textarea>
+
+                </div>
+
+                <!-- Tipo de conteúdo da coleção -->
+                <div class="campo-formulario">
+
+                    <label for="tipo-colecao">
+                        Tipo de conteúdo
+                    </label>
+
+                    <select
+                        id="tipo-colecao"
+                        name="tipo"
+                        required
+                    >
+
+                        <option value="musicas">
+                            Músicas
+                        </option>
+
+                        <option value="albuns">
+                            Álbuns
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Ações do formulário -->
+                <div class="acoes-formulario">
+
+                    <button
+                        type="button"
+                        class="botao-secundario"
+                        id="botao-cancelar-colecao"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="botao">
+                        Criar coleção
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+</body>
+</html>
+
