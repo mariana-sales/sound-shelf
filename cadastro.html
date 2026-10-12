@@ -1,1 +1,190 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+ </head>
+ <body>
+    <!-- cabeçalho/navegação -->
+    <header class="cabecalho">
+        <img src="" alt="logo sound shelf">
+        <p class="logo">Sound Shelf</p>
+
+        <!-- navegacao principal -->
+        <nav class="nav-principal">
+            <a href="index.html" class="link">Home</a>
+            <a href="perfil.html" class="link">Perfil</a>
+            <a href="colecoes.html" class="link">Coleções</a>
+        </nav>
+
+        <!-- form de pesquisa -->
+        <form class="form-pesquisa">
+
+            <label for="pesquisa" class="input-estilo">
+                Pesquisar
+            </label>
+
+            <input
+                type="search"
+                id="pesquisa"
+                name="pesquisa"
+                placeholder="Pesquisar">
+
+            <button type="submit" class="botao">Buscar</button>
+        </form>
+    </header>
+
+    <!-- Formulário de cadastro -->
+
+    <main>
+
+        <section
+            class="secao-autenticacao"
+        >
+
+            <header class="cabecalho-secao">
+
+                <p class="texto-pequeno">FAÇA PARTE DA COMUNIDADE</p>
+
+                <h1 id="titulo-cadastro">Crie sua conta</h1>
+
+                <p>
+                    Monte sua biblioteca musical, avalie álbuns
+                    e compartilhe suas descobertas.
+                </p>
+
+            </header>
+
+            <form id="formulario-cadastro">
+
+                <!-- Nome de usuário -->
+
+                <div class="campo-formulario">
+
+                    <label for="nome-usuario">
+                        Nome de usuário
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nome-usuario"
+                        name="usuario"
+                        placeholder="Como você quer ser chamado?"
+                        minlength="3"
+                        maxlength="30"
+                        required
+                    >
+
+                </div>
+
+                <!-- E-mail -->
+
+                <div class="campo-formulario">
+
+                    <label for="email-cadastro">
+                        E-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email-cadastro"
+                        name="email"
+                        placeholder="seuemail@exemplo.com"
+                        required
+                    >
+
+                </div>
+
+                <!-- Senha -->
+
+                <div class="campo-formulario">
+
+                    <label for="senha-cadastro">
+                        Senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="senha-cadastro"
+                        name="senha"
+                        placeholder="Crie uma senha"
+                        minlength="8"
+                        required
+                    >
+
+                </div>
+
+                <!-- Confirmação de senha -->
+
+                <div class="campo-formulario">
+
+                    <label for="confirmar-senha">
+                        Confirmar senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmar-senha"
+                        name="confirmar-senha"
+                        placeholder="Digite a senha novamente"
+                        minlength="8"
+                        required
+                    >
+
+                </div>
+
+                <!-- Aceite dos termos -->
+
+                <div class="campo-formulario">
+
+                    <label for="aceitar-termos">
+
+                        <input
+                            type="checkbox"
+                            id="aceitar-termos"
+                            name="aceitar-termos"
+                            required
+                        >
+
+                        Concordo com os termos de uso e a política
+                        de privacidade.
+
+                    </label>
+
+                </div>
+
+                <!-- Envio do formulário -->
+
+                <button type="submit" class="botao">
+                    Criar conta
+                </button>
+
+            </form>
+
+            <!-- Link para login -->
+
+            <p class="texto-autenticacao">
+                Já tem uma conta?
+
+                <a href="login.html" class="link">
+                    Entrar
+                </a>
+            </p>
+
+        </section>
+
+    </main>
+
+    <!-- Rodapé padrão -->
+
+    <footer class="rodape">
+
+        <p>Projeto acadêmico</p>
+
+        <p>&copy; 2026 Sound Shelf</p>
+
+    </footer>
+ </body>
+ </html>
  
