@@ -164,6 +164,303 @@
 
         </section>
 
+        <!-- Pesquisa, filtros e ordenação das coleções -->
+
+        <section
+            class="ferramentas-colecoes"
+            aria-label="Ferramentas para organizar as coleções"
+        >
+
+            <!-- Pesquisa dentro das coleções -->
+            <form
+                class="formulario-filtro"
+                id="formulario-pesquisa-colecoes"
+                role="search"
+            >
+
+                <label for="pesquisar-colecoes">
+                    Pesquisar coleções
+                </label>
+
+                <input
+                    type="search"
+                    id="pesquisar-colecoes"
+                    name="pesquisa-colecoes"
+                    placeholder="Nome da coleção"
+                >
+
+            </form>
+
+            <!-- Filtro por tipo de conteúdo -->
+            <div class="campo-filtro">
+
+                <label for="filtro-tipo">
+                    Filtrar por tipo
+                </label>
+
+                <select id="filtro-tipo" name="filtro-tipo">
+
+                    <option value="todos">Todos</option>
+
+                    <option value="musicas">Músicas</option>
+
+                    <option value="albuns">Álbuns</option>
+
+                </select>
+
+            </div>
+
+            <!-- Ordenação das coleções -->
+            <div class="campo-filtro">
+
+                <label for="ordenar-colecoes">
+                    Ordenar
+                </label>
+
+                <select
+                    id="ordenar-colecoes"
+                    name="ordenar-colecoes"
+                >
+
+                    <option value="recentes">
+                        Mais recentes
+                    </option>
+
+                    <option value="nome">
+                        Nome
+                    </option>
+
+                    <option value="quantidade">
+                        Quantidade de itens
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+        <!-- listas e cartões de coleções -->
+
+        <section
+            class="lista-colecoes"
+            aria-labelledby="titulo-lista-colecoes"
+        >
+
+            <header class="cabecalho-secao">
+
+                <h2 id="titulo-lista-colecoes">
+                    Suas coleções
+                </h2>
+
+                <!-- A quantidade será atualizada pelo JavaScript -->
+                <span id="quantidade-colecoes">
+                    3 coleções
+                </span>
+
+            </header>
+
+            <div class="grade-colecoes">
+
+                <!-- Primeira coleção: músicas -->
+                <article
+                    class="card-colecao"
+                    data-tipo="musicas"
+                    data-quantidade="12"
+                >
+
+                    <div class="capas-colecao">
+
+                        <!-- As capas serão adicionadas posteriormente -->
+
+                    </div>
+
+                    <div class="informacoes-colecao">
+
+                        <h3>Melhores de 2026</h3>
+
+                        <p>
+                            As músicas que mais gostei durante o ano.
+                        </p>
+
+                        <span class="quantidade-itens">
+                            12 músicas
+                        </span>
+
+                    </div>
+
+                    <!-- Ações de cada coleção -->
+                    <div class="acoes-colecao">
+
+                        <button
+                            type="button"
+                            class="botao-visualizar-colecao"
+                        >
+                            Ver coleção
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-editar"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-fixar"
+                        >
+                            Fixar no perfil
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-excluir"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <!-- Segunda coleção: músicas -->
+                <article
+                    class="card-colecao"
+                    data-tipo="musicas"
+                    data-quantidade="20"
+                >
+
+                    <div class="capas-colecao">
+
+                        <!-- As capas serão adicionadas posteriormente -->
+
+                    </div>
+
+                    <div class="informacoes-colecao">
+
+                        <h3>Para ouvir depois</h3>
+
+                        <p>
+                            Músicas que ainda quero conhecer melhor.
+                        </p>
+
+                        <span class="quantidade-itens">
+                            20 músicas
+                        </span>
+
+                    </div>
+
+                    <div class="acoes-colecao">
+
+                        <button
+                            type="button"
+                            class="botao-visualizar-colecao"
+                        >
+                            Ver coleção
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-editar"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-fixar"
+                        >
+                            Fixar no perfil
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-excluir"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <!-- Terceira coleção: álbuns -->
+                <article
+                    class="card-colecao"
+                    data-tipo="albuns"
+                    data-quantidade="9"
+                >
+
+                    <div class="capas-colecao">
+
+                        <!-- As capas serão adicionadas posteriormente -->
+
+                    </div>
+
+                    <div class="informacoes-colecao">
+
+                        <h3>Álbuns de rock</h3>
+
+                        <p>
+                            Álbuns de rock que quero ouvir e avaliar.
+                        </p>
+
+                        <span class="quantidade-itens">
+                            9 álbuns
+                        </span>
+
+                    </div>
+
+                    <div class="acoes-colecao">
+
+                        <button
+                            type="button"
+                            class="botao-visualizar-colecao"
+                        >
+                            Ver coleção
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-editar"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-fixar"
+                        >
+                            Fixar no perfil
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-excluir"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Rodapé: padrão do Sound Shelf -->
+    <footer class="rodape">
+
+        <p>Projeto acadêmico</p>
+
+        <p>&copy; 2026 Sound Shelf</p>
+
+    </footer>
+
 </body>
 </html>
 
