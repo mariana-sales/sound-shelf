@@ -433,3 +433,117 @@ legend {
     justify-content: flex-end;
     gap: var(--espaco-3);
 }
+
+/* 6. CABEÇALHO E NAVEGAÇÃO  */
+
+.cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    padding-block: var(--espaco-3);
+    padding-inline: max(var(--espaco-5), calc((100% - var(--largura-maxima)) / 2));
+    background-color: color-mix(in srgb, var(--cor-fundo) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+/* Logo (imagem + nome) */
+.cabecalho > img {
+    width: auto;
+    height: 30px;
+}
+
+.logo {
+    margin: 0 var(--espaco-4) 0 0;
+    font-size: var(--texto-subtitulo);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* Links de navegação */
+.nav-principal {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-1);
+}
+
+.nav-principal .link {
+    padding: var(--espaco-2) var(--espaco-4);
+    border-radius: var(--raio-total);
+    color: var(--cor-texto-secundario);
+    font-weight: 500;
+}
+
+.nav-principal .link:hover {
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+    text-decoration: none;
+}
+
+.nav-principal .link.ativo,
+.nav-principal .link {
+    background-color: var(--cor-superficie-hover);
+    color: var(--cor-texto);
+}
+
+/* Pesquisa do cabeçalho */
+.form-pesquisa {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    margin-left: auto;
+}
+
+.form-pesquisa input {
+    width: 320px;
+    padding: var(--espaco-2) var(--espaco-4) var(--espaco-2) 44px;
+    border-radius: var(--raio-total);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23AAA5B4' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 16px center;
+}
+
+.form-pesquisa .botao {
+    padding-block: var(--espaco-2);
+}
+
+/* Avatar solto logo depois do cabeçalho (home): fica fixo no canto do topo */
+body > .link-perfil {
+    position: fixed;
+    top: var(--espaco-3);
+    right: max(var(--espaco-5), calc((100vw - var(--largura-maxima)) / 2));
+    z-index: 60;
+}
+
+/* Reserva espaço para o avatar fixo no cabeçalho */
+.cabecalho:has(+ .link-perfil) {
+    padding-right: calc(max(var(--espaco-5), (100% - var(--largura-maxima)) / 2) + 60px);
+}
+
+/* Avatar dentro do cabeçalho (quando estiver dentro dele) */
+.cabecalho .link-perfil {
+    margin-left: var(--espaco-2);
+}
+
+
+/* 7. RODAPÉ */
+
+.rodape {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-2) var(--espaco-5);
+    padding: var(--espaco-6) var(--espaco-5);
+    border-top: 1px solid var(--cor-borda);
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+    text-align: center;
+}
+
+.rodape p {
+    margin: 0;
+}
