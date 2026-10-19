@@ -834,3 +834,442 @@ body > .link-perfil {
 .item-artista .nota::before {
     content: "★ ";
 }
+
+/* 9. PERFIL (perfil.html) */
+
+.cabecalho-perfil {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-6);
+    padding: var(--espaco-6);
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--cor-destaque) 32%, var(--cor-superficie)),
+        var(--cor-superficie) 70%
+    );
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+}
+
+.avatar-grande {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    border: 4px solid var(--cor-destaque);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.informacoes-perfil {
+    flex: 1;
+    min-width: 0;
+}
+
+.informacoes-perfil h1 {
+    margin-bottom: var(--espaco-1);
+}
+
+.nome-usuario {
+    margin-bottom: var(--espaco-2);
+    color: var(--cor-destaque-hover);
+    font-weight: 600;
+}
+
+.informacoes-perfil p:not(.nome-usuario) {
+    max-width: 560px;
+    color: var(--cor-texto-secundario);
+}
+
+.estatisticas-perfil {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-6);
+    margin-top: var(--espaco-4);
+}
+
+.estatisticas-perfil strong {
+    display: block;
+    font-size: var(--texto-titulo);
+    line-height: 1.2;
+}
+
+.estatisticas-perfil span {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+/* Abas do perfil */
+.navegacao-perfil {
+    display: flex;
+    gap: var(--espaco-2);
+    margin-block: var(--espaco-5);
+    padding-bottom: var(--espaco-3);
+    overflow-x: auto;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.aba {
+    flex-shrink: 0;
+    padding: var(--espaco-2) var(--espaco-4);
+    border-radius: var(--raio-total);
+    color: var(--cor-texto-secundario);
+    font-weight: 500;
+}
+
+.aba:hover {
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+}
+
+.aba.ativa {
+    background-color: var(--cor-destaque);
+    color: #17121F;
+}
+
+.aba.ativa:hover {
+    background-color: var(--cor-destaque-hover);
+}
+
+/* Seções do perfil */
+.conteudo-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-7);
+}
+
+.secao-avaliacoes,
+.secao-colecoes-perfil {
+    margin-top: var(--espaco-7);
+}
+
+/* Grade de músicas */
+.grade-musicas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--espaco-5);
+}
+
+.card-musica {
+    padding: var(--espaco-3);
+    transition:
+        background-color var(--transicao-padrao),
+        border-color var(--transicao-padrao),
+        transform var(--transicao-padrao);
+}
+
+.card-musica:hover {
+    background-color: var(--cor-superficie-hover);
+    border-color: var(--cor-destaque);
+    transform: translateY(-2px);
+}
+
+.card-musica a {
+    display: block;
+}
+
+.card-musica img {
+    width: 100%;
+    aspect-ratio: 1;
+    margin-bottom: var(--espaco-3);
+    border-radius: var(--raio-pequeno);
+    object-fit: cover;
+}
+
+.card-musica h3 {
+    margin-bottom: var(--espaco-1);
+    font-size: var(--texto-normal);
+}
+
+.card-musica p {
+    margin-bottom: var(--espaco-1);
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+/* Gosto musical */
+.grafico-generos {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: center;
+    gap: var(--espaco-6);
+}
+
+.genero-principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    margin-inline: auto;
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 50%;
+    text-align: center;
+}
+
+.genero-principal span {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.genero-principal strong {
+    font-size: var(--texto-subtitulo);
+}
+
+.genero-principal span:last-child {
+    color: var(--cor-destaque);
+    font-weight: 700;
+}
+
+.lista-generos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+.linha-genero {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) 44px;
+    align-items: center;
+    gap: var(--espaco-4);
+}
+
+.linha-genero span:last-child {
+    color: var(--cor-texto-secundario);
+    text-align: right;
+}
+
+/* Barras de progresso */
+progress {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--raio-total);
+    background-color: var(--cor-superficie-hover);
+}
+
+progress::-webkit-progress-bar {
+    background-color: var(--cor-superficie-hover);
+    border-radius: var(--raio-total);
+}
+
+progress::-webkit-progress-value {
+    background-color: var(--cor-destaque);
+    border-radius: var(--raio-total);
+}
+
+progress::-moz-progress-bar {
+    background-color: var(--cor-destaque);
+    border-radius: var(--raio-total);
+}
+
+/* Coleção em destaque */
+.card-colecao-destaque {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-5);
+    padding: var(--espaco-5);
+    border-radius: var(--raio-grande);
+}
+
+.card-colecao-destaque .capas-colecao {
+    width: 200px;
+    min-height: 0;
+    flex-shrink: 0;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card-colecao-destaque .informacoes-colecao h3 {
+    font-size: var(--texto-subtitulo);
+}
+
+.card-colecao-destaque .informacoes-colecao > span {
+    display: block;
+    margin-bottom: var(--espaco-3);
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.card-colecao-destaque .informacoes-colecao > a {
+    color: var(--cor-destaque);
+    font-weight: 600;
+}
+
+/* Lista de avaliações */
+.lista-avaliacoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--espaco-4);
+}
+
+.card-avaliacao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+    padding: var(--espaco-5);
+}
+
+.card-avaliacao h3,
+.card-avaliacao p {
+    margin: 0;
+}
+
+.card-avaliacao p {
+    color: var(--cor-texto-secundario);
+}
+
+.card-avaliacao a {
+    margin-top: var(--espaco-2);
+    color: var(--cor-destaque);
+    font-size: var(--texto-pequeno);
+    font-weight: 600;
+}
+
+
+/* 10. COLEÇÕES (colecoes.html) - também usado no perfil */
+
+.cabecalho-pagina {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+    margin-bottom: var(--espaco-6);
+}
+
+.cabecalho-pagina h1 {
+    margin-block: var(--espaco-1) var(--espaco-2);
+}
+
+.cabecalho-pagina p:not(.texto-pequeno) {
+    margin-bottom: 0;
+    color: var(--cor-texto-secundario);
+}
+
+/* Formulário de criar coleção */
+.formulario-colecao {
+    max-width: 640px;
+    margin-bottom: var(--espaco-6);
+    padding: var(--espaco-5);
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+}
+
+/* Pesquisa, filtro e ordenação */
+.ferramentas-colecoes {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+    align-items: end;
+    gap: var(--espaco-4);
+    margin-bottom: var(--espaco-6);
+}
+
+.formulario-filtro,
+.campo-filtro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+}
+
+.formulario-filtro label,
+.campo-filtro label {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+#quantidade-colecoes {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+/* Grade de coleções */
+.grade-colecoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--espaco-5);
+}
+
+.card-colecao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    padding: var(--espaco-4);
+    transition:
+        border-color var(--transicao-padrao),
+        transform var(--transicao-padrao);
+}
+
+.card-colecao:hover {
+    border-color: var(--cor-destaque);
+    transform: translateY(-2px);
+}
+
+.card-colecao h3,
+.card-colecao p {
+    margin: 0;
+}
+
+.card-colecao p {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+/* Capas da coleção em mosaico (2 colunas) */
+.capas-colecao {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--espaco-1);
+    min-height: 160px;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        var(--cor-superficie-hover),
+        color-mix(in srgb, var(--cor-destaque) 25%, var(--cor-superficie-hover))
+    );
+    border-radius: var(--raio-medio);
+}
+
+.capas-colecao img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+/* Texto da coleção */
+.card-colecao .informacoes-colecao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.quantidade-itens,
+.card-colecao > span {
+    color: var(--cor-avaliacao);
+    font-size: var(--texto-pequeno);
+    font-weight: 600;
+}
+
+.card-colecao > a {
+    color: var(--cor-destaque);
+    font-size: var(--texto-pequeno);
+    font-weight: 600;
+}
+
+/* Botões de cada coleção */
+.acoes-colecao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+    margin-top: auto;
+}
+
+.acoes-colecao button {
+    padding: var(--espaco-1) var(--espaco-3);
+    font-size: var(--texto-pequeno);
+}
