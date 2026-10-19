@@ -1529,3 +1529,63 @@ progress::-moz-progress-bar {
     margin: var(--espaco-3) 0 0;
     color: var(--cor-texto-secundario);
 }
+
+
+/* 12. LOGIN E CADASTRO */
+
+.secao-autenticacao {
+    width: min(100%, 440px);
+    margin: var(--espaco-6) auto;
+    padding: var(--espaco-6);
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra-card);
+}
+
+.secao-autenticacao .cabecalho-secao {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--espaco-2);
+}
+
+.secao-autenticacao .cabecalho-secao > * {
+    margin: 0;
+}
+
+.secao-autenticacao .cabecalho-secao p:not(.texto-pequeno) {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-normal);
+}
+
+.secao-autenticacao .texto-pequeno {
+    color: var(--cor-destaque);
+    font-weight: 600;
+}
+
+/* Lembrar de mim + esqueci a senha */
+.opcoes-login {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-5);
+}
+
+.opcoes-login .link {
+    font-size: var(--texto-pequeno);
+}
+
+/* Botão de envio ocupa a largura toda */
+.secao-autenticacao form > .botao {
+    width: 100%;
+    padding-block: var(--espaco-3);
+}
+
+.texto-autenticacao {
+    margin: var(--espaco-5) 0 0;
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+    text-align: center;
+}
