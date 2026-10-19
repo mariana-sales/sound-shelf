@@ -196,3 +196,158 @@ textarea:focus-visible {
     font-size: var(--texto-pequeno);
     letter-spacing: 0.08em;
 }
+
+/* * 3. BOTÕES */ 
+
+.botao,
+.botao-secundario,
+.botao-visualizar-colecao,
+.botao-editar,
+.botao-fixar,
+.botao-excluir {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-2);
+    padding: var(--espaco-2) var(--espaco-4);
+    border: 1px solid transparent;
+    border-radius: var(--raio-total);
+    cursor: pointer;
+    font-weight: 600;
+    line-height: 1.4;
+    transition:
+        background-color var(--transicao-padrao),
+        border-color var(--transicao-padrao),
+        color var(--transicao-padrao);
+}
+
+/* Ação principal */
+.botao,
+.botao-visualizar-colecao {
+    background-color: var(--cor-destaque);
+    color: #17121F;
+}
+
+.botao:hover,
+.botao-visualizar-colecao:hover {
+    background-color: var(--cor-destaque-hover);
+    color: #17121F;
+}
+
+/* Ação secundária */
+.botao-secundario,
+.botao-editar,
+.botao-fixar {
+    background-color: transparent;
+    color: var(--cor-texto);
+    border-color: var(--cor-borda);
+}
+
+.botao-secundario:hover,
+.botao-editar:hover,
+.botao-fixar:hover {
+    background-color: var(--cor-superficie-hover);
+    border-color: var(--cor-destaque);
+    color: var(--cor-texto);
+}
+
+/* Ação perigosa */
+.botao-excluir {
+    background-color: transparent;
+    color: var(--cor-erro);
+    border-color: var(--cor-borda);
+}
+
+.botao-excluir:hover {
+    background-color: color-mix(in srgb, var(--cor-erro) 14%, transparent);
+    border-color: var(--cor-erro);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* 4. COMPONENTES REUTILIZÁVEIS */
+
+/* Card base (todos os cartões do site compartilham este visual) */
+.card,
+.card-publicacao,
+.card-lateral,
+.card-musica,
+.card-colecao,
+.card-colecao-destaque,
+.card-avaliacao {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    padding: var(--espaco-4);
+}
+
+/* Cabeçalho de uma seção */
+.cabecalho-secao {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-2) var(--espaco-4);
+    margin-bottom: var(--espaco-5);
+}
+
+/* Títulos de seção */
+.cabecalho-secao h2 {
+    margin-bottom: 0;
+    font-size: var(--texto-subtitulo);
+}
+
+/* Descrição ao lado ou abaixo do título da seção */
+.cabecalho-secao p {
+    margin: var(--espaco-1) 0 0;
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.cabecalho-secao > a {
+    color: var(--cor-destaque);
+    font-size: var(--texto-pequeno);
+    font-weight: 600;
+}
+
+/* Notas e avaliações */
+.avaliacao {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-1);
+    color: var(--cor-avaliacao);
+    font-weight: 600;
+}
+
+.nota {
+    color: var(--cor-avaliacao);
+    font-weight: 600;
+}
+
+/* Texto auxiliar dentro de cards */
+.card .texto-pequeno {
+    margin-bottom: 0;
+}
+
+/* Fotos de perfil redondas */
+.link-perfil {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.link-perfil img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--cor-borda);
+    transition: border-color var(--transicao-padrao);
+}
+
+.link-perfil:hover img {
+    border-color: var(--cor-destaque);
+}
