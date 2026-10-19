@@ -547,3 +547,290 @@ body > .link-perfil {
 .rodape p {
     margin: 0;
 }
+
+
+/* 8. HOME (index.html) */
+
+/* Apresentação inicial */
+.apresentacao {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: var(--espaco-6);
+    padding-block: var(--espaco-6) var(--espaco-7);
+    background: radial-gradient(ellipse 55% 70% at 80% 35%, var(--cor-destaque-suave), transparent 100%);
+}
+
+.conteudo-apresentacao > .texto-pequeno {
+    margin-bottom: var(--espaco-3);
+    color: var(--cor-destaque);
+    font-weight: 600;
+}
+
+.conteudo-apresentacao h1 {
+    margin-bottom: var(--espaco-4);
+    font-size: clamp(36px, 5.5vw, 64px);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+/* Palavra em destaque no título: <span>avaliada</span> */
+.conteudo-apresentacao h1 span {
+    color: var(--cor-destaque);
+}
+
+.conteudo-apresentacao p:not(.texto-pequeno) {
+    max-width: 520px;
+    margin-bottom: var(--espaco-5);
+    color: var(--cor-texto-secundario);
+    font-size: 18px;
+}
+
+.acoes-apresentacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-3);
+}
+
+.acoes-apresentacao .botao,
+.acoes-apresentacao .botao-secundario {
+    padding: var(--espaco-3) var(--espaco-5);
+}
+
+.visual-apresentacao img {
+    width: 100%;
+    max-width: 560px;
+    margin-left: auto;
+    filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.5));
+}
+
+/* Feed */
+.secao-feed {
+    margin-top: var(--espaco-4);
+}
+
+.filtros-feed {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+}
+
+.filtro {
+    padding: var(--espaco-2) var(--espaco-4);
+    background-color: transparent;
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-total);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        background-color var(--transicao-padrao),
+        border-color var(--transicao-padrao),
+        color var(--transicao-padrao);
+}
+
+.filtro:hover {
+    background-color: var(--cor-superficie-hover);
+    border-color: var(--cor-destaque);
+}
+
+.filtro.ativo {
+    background-color: var(--cor-destaque);
+    border-color: var(--cor-destaque);
+    color: #17121F;
+}
+
+/* Duas colunas: feed + barra lateral */
+.conteudo-feed {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+    gap: var(--espaco-5);
+}
+
+.lista-feed {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+/* Publicações do feed */
+.card-publicacao {
+    padding: var(--espaco-5);
+    border-radius: var(--raio-grande);
+}
+
+.cabecalho-publicacao {
+    margin-bottom: var(--espaco-4);
+}
+
+.usuario-publicacao {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.usuario-publicacao img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.conteudo-publicacao {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--espaco-5);
+}
+
+.capa-publicacao {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    border-radius: var(--raio-medio);
+    object-fit: cover;
+}
+
+.informacoes-publicacao {
+    flex: 1;
+    min-width: 0;
+}
+
+.informacoes-publicacao h3 {
+    margin-bottom: var(--espaco-1);
+    font-size: var(--texto-subtitulo);
+}
+
+.informacoes-publicacao p {
+    margin-bottom: var(--espaco-2);
+    color: var(--cor-texto-secundario);
+}
+
+.informacoes-publicacao .avaliacao {
+    margin-bottom: var(--espaco-2);
+}
+
+/* Capa de coleção (no feed é um quadro com imagem; na lateral é a própria imagem) */
+.capa-colecao {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: var(--raio-medio);
+    object-fit: cover;
+}
+
+.capa-colecao img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Barra lateral */
+.barra-lateral {
+    position: sticky;
+    top: 88px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+}
+
+.card-lateral {
+    padding: var(--espaco-5);
+    border-radius: var(--raio-grande);
+}
+
+.card-lateral h2 {
+    margin-bottom: var(--espaco-4);
+    font-size: var(--texto-subtitulo);
+}
+
+/* Estatísticas do usuário */
+.estatisticas-home {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-4);
+}
+
+.estatistica {
+    padding: var(--espaco-3) var(--espaco-2);
+    background-color: var(--cor-superficie-hover);
+    border-radius: var(--raio-medio);
+    text-align: center;
+}
+
+.estatistica strong {
+    display: block;
+    color: var(--cor-avaliacao);
+    font-size: var(--texto-titulo);
+    line-height: 1.2;
+}
+
+.estatistica span {
+    display: block;
+    color: var(--cor-texto-secundario);
+    font-size: 13px;
+}
+
+.card-lateral > .botao-secundario {
+    width: 100%;
+}
+
+/* Listas da barra lateral */
+.albuns-home,
+.artistas-home,
+.colecoes-home {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+.item-destaque,
+.item-artista,
+.item-colecao {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.capa-destaque,
+.item-colecao .capa-colecao {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: var(--raio-pequeno);
+    object-fit: cover;
+}
+
+.imagem-artista {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.informacoes-destaque,
+.item-colecao .informacoes-colecao {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.informacoes-destaque span,
+.item-colecao .informacoes-colecao span {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.item-artista strong {
+    flex: 1;
+}
+
+/* Nota com estrela nas listas da lateral */
+.item-destaque .nota::before,
+.item-artista .nota::before {
+    content: "★ ";
+}
