@@ -1589,3 +1589,155 @@ progress::-moz-progress-bar {
     font-size: var(--texto-pequeno);
     text-align: center;
 }
+
+/* 13. RESPONSIVO */
+
+/* Telas médias (tablet na horizontal / notebook pequeno) */
+@media (max-width: 1024px) {
+
+    .apresentacao {
+        grid-template-columns: 1fr;
+    }
+
+    .visual-apresentacao img {
+        margin-inline: auto;
+    }
+
+    .conteudo-feed {
+        grid-template-columns: 1fr;
+    }
+
+    .barra-lateral {
+        position: static;
+    }
+
+    .form-pesquisa input {
+        width: 220px;
+    }
+}
+
+/* Tablets e celulares grandes */
+@media (max-width: 768px) {
+
+    /* Cabeçalho em duas linhas: logo + menu, depois a pesquisa */
+    .cabecalho {
+        flex-wrap: wrap;
+        row-gap: var(--espaco-3);
+    }
+
+    .cabecalho:has(+ .link-perfil) {
+        padding-right: calc(var(--espaco-5) + 60px);
+    }
+
+    .form-pesquisa {
+        order: 3;
+        flex: 1 1 100%;
+        margin-left: 0;
+    }
+
+    .form-pesquisa input {
+        width: 100%;
+    }
+
+    .logo {
+        margin-right: 0;
+    }
+
+    .cabecalho-perfil {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .estatisticas-perfil {
+        justify-content: center;
+    }
+
+    .grafico-generos {
+        grid-template-columns: 1fr;
+    }
+
+    .card-colecao-destaque {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .card-colecao-destaque .capas-colecao {
+        width: 100%;
+    }
+
+    .detalhes-conteudo {
+        grid-template-columns: 1fr;
+    }
+
+    .capa-detalhes img {
+        max-width: 260px;
+    }
+
+    .ferramentas-colecoes {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecalho-pagina {
+        align-items: flex-start;
+    }
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+
+    main {
+        padding-block: var(--espaco-5) var(--espaco-6);
+    }
+
+    .nav-principal {
+        order: 2;
+        flex: 1 1 100%;
+        overflow-x: auto;
+    }
+
+    .conteudo-publicacao {
+        gap: var(--espaco-3);
+    }
+
+    .capa-publicacao,
+    .capa-colecao {
+        width: 88px;
+        height: 88px;
+    }
+
+    .item-destaque .capa-destaque,
+    .item-colecao .capa-colecao {
+        width: 56px;
+        height: 56px;
+    }
+
+    .linha-genero {
+        grid-template-columns: 90px minmax(0, 1fr) 40px;
+        gap: var(--espaco-2);
+    }
+
+    .grade-musicas {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--espaco-3);
+    }
+
+    .secao-autenticacao,
+    .detalhes-conteudo,
+    .cabecalho-perfil {
+        padding: var(--espaco-5);
+    }
+
+    .acoes-formulario .botao,
+    .acoes-formulario .botao-secundario {
+        flex: 1;
+    }
+
+    .item-informacao {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .item-informacao dd {
+        text-align: left;
+    }
+}
