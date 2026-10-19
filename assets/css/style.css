@@ -351,3 +351,85 @@ button:disabled {
 .link-perfil:hover img {
     border-color: var(--cor-destaque);
 }
+
+/* 5. CAMPOS DE FORMULÁRIO */
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: var(--espaco-3) var(--espaco-4);
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    transition: border-color var(--transicao-padrao);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--cor-texto-secundario);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--cor-destaque);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Caixas de seleção e botões de opção não ocupam a linha toda */
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto;
+    padding: 0;
+    accent-color: var(--cor-destaque);
+    cursor: pointer;
+}
+
+/* Rótulos dos campos */
+label {
+    color: var(--cor-texto);
+}
+
+/* Rótulo com caixa de seleção ao lado do texto */
+label:has(> input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--texto-pequeno);
+    cursor: pointer;
+}
+
+/* Formulários com campos organizados verticalmente */
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-4);
+}
+
+/* Agrupamento de opções (fieldset) sem borda do navegador */
+fieldset.campo-formulario {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+}
+
+legend {
+    padding: 0;
+    margin-bottom: var(--espaco-3);
+    font-weight: 600;
+}
+
+/* Botões no fim dos formulários */
+.acoes-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--espaco-3);
+}
