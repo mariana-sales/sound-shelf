@@ -1273,3 +1273,259 @@ progress::-moz-progress-bar {
     padding: var(--espaco-1) var(--espaco-3);
     font-size: var(--texto-pequeno);
 }
+
+
+/*  11. DETALHES (detalhes.html)*/
+
+.detalhes-conteudo {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    align-items: end;
+    gap: var(--espaco-6);
+    padding: var(--espaco-6);
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--cor-destaque) 32%, var(--cor-superficie)),
+        var(--cor-superficie) 70%
+    );
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+}
+
+.capa-detalhes img {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-card);
+    object-fit: cover;
+}
+
+.informacoes-detalhes h1 {
+    margin: var(--espaco-1) 0 var(--espaco-2);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.artista-conteudo {
+    margin-bottom: var(--espaco-2);
+    color: var(--cor-texto-secundario);
+}
+
+.metadados-conteudo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-3);
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.informacoes-detalhes .avaliacao {
+    font-size: var(--texto-subtitulo);
+}
+
+#nota-media {
+    font-size: var(--texto-titulo);
+}
+
+#quantidade-avaliacoes {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+    font-weight: 400;
+}
+
+.acoes-conteudo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-3);
+    margin-top: var(--espaco-5);
+}
+
+/* Seções em cartão da página de detalhes */
+.secao-descricao,
+.secao-avaliacao,
+.secao-adicionar-colecao,
+.secao-faixas,
+.secao-resenhas {
+    margin-top: var(--espaco-5);
+    padding: var(--espaco-5);
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+}
+
+/* Informações do álbum */
+.lista-informacoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0 var(--espaco-6);
+    margin: var(--espaco-5) 0 0;
+}
+
+.item-informacao {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+    padding: var(--espaco-3) 0;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.item-informacao dt {
+    color: var(--cor-texto-secundario);
+}
+
+.item-informacao dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* Nota da avaliação (estrelas em botões de opção) */
+.opcoes-nota {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+}
+
+.opcoes-nota label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    padding: var(--espaco-2) var(--espaco-4);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-total);
+    cursor: pointer;
+    transition:
+        background-color var(--transicao-padrao),
+        border-color var(--transicao-padrao);
+}
+
+.opcoes-nota label:hover {
+    background-color: var(--cor-superficie-hover);
+}
+
+.opcoes-nota label:has(input:checked) {
+    background-color: var(--cor-destaque-suave);
+    border-color: var(--cor-destaque);
+    color: var(--cor-avaliacao);
+}
+
+/* Adicionar à coleção: select + botão + link na mesma linha */
+#formulario-selecionar-colecao {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--espaco-4);
+}
+
+#formulario-selecionar-colecao .campo-formulario {
+    flex: 1 1 260px;
+    margin-bottom: 0;
+}
+
+#formulario-selecionar-colecao .link {
+    align-self: center;
+}
+
+/* Lista de faixas */
+#total-faixas,
+#quantidade-resenhas {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.item-faixa {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--espaco-4);
+    padding: var(--espaco-3) var(--espaco-4);
+    border-radius: var(--raio-medio);
+    transition: background-color var(--transicao-padrao);
+}
+
+.item-faixa:hover {
+    background-color: var(--cor-superficie-hover);
+}
+
+.numero-faixa {
+    color: var(--cor-texto-secundario);
+    text-align: center;
+}
+
+.informacoes-faixa h3 {
+    margin: 0;
+    font-size: var(--texto-normal);
+}
+
+.informacoes-faixa p {
+    margin: 0;
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.informacoes-faixa .link {
+    color: var(--cor-texto);
+    font-weight: 500;
+}
+
+.informacoes-faixa .link:hover {
+    color: var(--cor-destaque-hover);
+    text-decoration: none;
+}
+
+.duracao-faixa {
+    color: var(--cor-texto-secundario);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Resenhas da comunidade */
+.lista-resenhas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--espaco-4);
+}
+
+.card-resenha {
+    padding: var(--espaco-4);
+    background-color: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+}
+
+.cabecalho-resenha {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.card-resenha .link-perfil img {
+    width: 40px;
+    height: 40px;
+}
+
+.informacoes-usuario {
+    flex: 1;
+    min-width: 0;
+}
+
+.informacoes-usuario h3 {
+    margin: 0;
+    font-size: var(--texto-normal);
+}
+
+.informacoes-usuario .link {
+    color: var(--cor-texto);
+}
+
+.data-resenha {
+    color: var(--cor-texto-secundario);
+    font-size: 13px;
+}
+
+.conteudo-resenha p {
+    margin: var(--espaco-3) 0 0;
+    color: var(--cor-texto-secundario);
+}
