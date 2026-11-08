@@ -68,6 +68,7 @@
 /* Configura o documento */
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 88px; /* compensa o cabeçalho fixo nos links de âncora */
     color-scheme: dark;
 }
 
@@ -483,8 +484,9 @@ legend {
     text-decoration: none;
 }
 
+/* Página atual: marcada no HTML com class="link ativo" e aria-current="page" */
 .nav-principal .link.ativo,
-.nav-principal .link {
+.nav-principal .link[aria-current="page"] {
     background-color: var(--cor-superficie-hover);
     color: var(--cor-texto);
 }
@@ -1619,6 +1621,10 @@ progress::-moz-progress-bar {
 /* Tablets e celulares grandes */
 @media (max-width: 768px) {
 
+    html {
+        scroll-padding-top: 130px; /* cabeçalho em duas linhas */
+    }
+
     /* Cabeçalho em duas linhas: logo + menu, depois a pesquisa */
     .cabecalho {
         flex-wrap: wrap;
@@ -1684,6 +1690,10 @@ progress::-moz-progress-bar {
 
 /* Celulares */
 @media (max-width: 480px) {
+
+    html {
+        scroll-padding-top: 170px; /* cabeçalho em três linhas */
+    }
 
     main {
         padding-block: var(--espaco-5) var(--espaco-6);

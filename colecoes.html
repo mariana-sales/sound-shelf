@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sound Shelf - Coleções</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script defer src="assets/js/script.js"></script>
 </head>
 <body>
     <!-- cabeçalho/navegação -->
@@ -16,7 +17,7 @@
         <nav class="nav-principal">
             <a href="index.html" class="link">Home</a>
             <a href="perfil.html" class="link">Perfil</a>
-            <a href="colecoes.html" class="link">Coleções</a>
+            <a href="colecoes.html" class="link ativo" aria-current="page">Coleções</a>
         </nav>
 
         <!-- form de pesquisa -->
@@ -66,7 +67,8 @@
 
         </section>
 
-
+        <!-- Mensagens de feedback (preenchidas pelo JavaScript) -->
+        <div id="mensagem-colecoes" role="status" aria-live="polite"></div>
 
         <section
             class="formulario-colecao"
@@ -261,7 +263,7 @@
 
             </header>
 
-            <div class="grade-colecoes">
+            <div class="grade-colecoes" id="grade-colecoes">
 
                 <!-- Primeira coleção: músicas -->
                 <article
