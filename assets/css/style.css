@@ -1751,3 +1751,71 @@ progress::-moz-progress-bar {
         text-align: left;
     }
 }
+
+// ----- Conta, mensagens e validação -----
+
+/* Área da conta */
+.area-conta {
+    display: flex;
+    align-items: center;
+    margin-left: var(--espaco-2);
+}
+
+.acoes-conta {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.nome-conta {
+    max-width: 140px;
+    overflow: hidden;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Erros dos campos */
+.erro-campo {
+    margin: 0;
+    color: var(--cor-erro);
+    font-size: var(--texto-pequeno);
+}
+
+input[aria-invalid="true"] {
+    border-color: var(--cor-erro);
+}
+
+/* Mensagens do formulário */
+.mensagem-formulario {
+    margin-bottom: var(--espaco-4);
+    padding: var(--espaco-3) var(--espaco-4);
+    border: 1px solid;
+    border-radius: var(--raio-medio);
+    font-size: var(--texto-pequeno);
+}
+
+.mensagem-erro {
+    color: var(--cor-erro);
+    background-color: color-mix(in srgb, var(--cor-erro) 12%, transparent);
+    border-color: var(--cor-erro);
+}
+
+.mensagem-sucesso {
+    color: var(--cor-sucesso);
+    background-color: color-mix(in srgb, var(--cor-sucesso) 12%, transparent);
+    border-color: var(--cor-sucesso);
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 1100px) {
+    .nome-conta {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .area-conta {
+        margin-left: auto;
+    }
+}
