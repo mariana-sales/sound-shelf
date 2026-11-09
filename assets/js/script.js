@@ -9,6 +9,7 @@
    - Senhas e Contas
    - Cabeçalho e Proteção de Páginas
    - Cadastro e login
+   - Listagem coleções
    - Inicialização
 
    Modelos:
@@ -494,6 +495,101 @@ function iniciarLogin() {
     });
 }
 
+// ----- Coleções: listagem -----
+
+const ROTULOS_TIPO = {
+    musicas: { singular: "música", plural: "músicas" },
+    albuns: { singular: "álbum", plural: "álbuns" },
+};
+
+function textoQuantidadeItens(tipo, quantidade) {
+    const rotulo = ROTULOS_TIPO[tipo] || ROTULOS_TIPO.musicas;
+    return `${quantidade} ${quantidade === 1 ? rotulo.singular : rotulo.plural}`;
+}
+
+function textoQuantidadeColecoes(quantidade) {
+    return `${quantidade} ${quantidade === 1 ? "coleção" : "coleções"}`;
+}
+
+// Cria um elemento com classe e texto.
+function criarElemento(tag, classe, texto) {
+    const elemento = document.createElement(tag);
+
+    if (classe) {
+        elemento.className = classe;
+    }
+
+    if (texto !== undefined) {
+        elemento.textContent = texto;
+    }
+
+    return elemento;
+}
+
+function criarBotaoAcao(classe, texto) {
+    const botao = criarElemento("button", classe, texto);
+    botao.type = "button";
+    return botao;
+}
+
+// Cria o card de uma coleção.
+function criarCardColecao(colecao) {
+    const itens = Array.isArray(colecao.itens) ? colecao.itens : [];
+
+    const card = criarElemento("article", "card-colecao");
+    card.dataset.id = colecao.id;
+    card.dataset.tipo = colecao.tipo;
+    card.dataset.quantidade = itens.length;
+
+    const capas = criarElemento("div", "capas-colecao");
+
+    const informacoes = criarElemento("div", "informacoes-colecao");
+    informacoes.append(criarElemento("h3", "", colecao.nome));
+
+    if (colecao.descricao) {
+        informacoes.append(criarElemento("p", "", colecao.descricao));
+    }
+
+    informacoes.append(
+        criarElemento(
+            "span",
+            "quantidade-itens",
+            textoQuantidadeItens(colecao.tipo, itens.length)
+        )
+    );
+
+    const acoes = criarElemento("div", "acoes-colecao");
+    acoes.append(
+        criarBotaoAcao("botao-visualizar-colecao", "Ver coleção"),
+        criarBotaoAcao("botao-editar", "Editar"),
+        criarBotaoAcao("botao-fixar", "Fixar no perfil"),
+        criarBotaoAcao("botao-excluir", "Excluir")
+    );
+
+    card.append(capas, informacoes, acoes);
+    return card;
+}
+
+// Atualiza a lista de coleções.
+function renderizarColecoes() {
+    const usuario = obterUsuarioLogado();
+    const grade = document.getElementById("grade-colecoes");
+    const contador = document.getElementById("quantidade-colecoes");
+    const vazio = document.getElementById("colecoes-vazia");
+
+    // Exibe as coleções mais recentes primeiro.
+    const colecoes = (usuario ? colecoesDoUsuario(usuario.id) : []).sort(
+        (a, b) => b.criadaEm.localeCompare(a.criadaEm)
+    );
+
+    grade.replaceChildren(...colecoes.map(criarCardColecao));
+    contador.textContent = textoQuantidadeColecoes(colecoes.length);
+    vazio.hidden = colecoes.length > 0;
+}
+
+function iniciarColecoes() {
+    renderizarColecoes();
+}
 
 // ----- Inicialização -----
 
@@ -511,6 +607,10 @@ function iniciar() {
 
     if (document.getElementById("formulario-login")) {
         iniciarLogin();
+    }
+
+    if (document.getElementById("grade-colecoes")) {
+        iniciarColecoes();
     }
 }
 

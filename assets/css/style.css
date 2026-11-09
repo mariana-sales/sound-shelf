@@ -1752,7 +1752,7 @@ progress::-moz-progress-bar {
     }
 }
 
-// ----- Conta, mensagens e validação -----
+/* ----- Conta, mensagens e validação ----- */
 
 /* Área da conta */
 .area-conta {
@@ -1805,6 +1805,28 @@ input[aria-invalid="true"] {
     color: var(--cor-sucesso);
     background-color: color-mix(in srgb, var(--cor-sucesso) 12%, transparent);
     border-color: var(--cor-sucesso);
+}
+
+
+
+/* Estado vazio (listas sem itens) */
+.estado-vazio {
+    padding: var(--espaco-6);
+    text-align: center;
+    color: var(--cor-texto-secundario);
+    background-color: var(--cor-superficie);
+    border: 1px dashed var(--cor-borda);
+    border-radius: var(--raio-grande);
+}
+
+.estado-vazio p {
+    margin: 0;
+}
+
+.estado-vazio p:first-child {
+    margin-bottom: var(--espaco-2);
+    color: var(--cor-texto);
+    font-weight: 600;
 }
 
 /* Ajustes para telas menores */
