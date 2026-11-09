@@ -591,6 +591,289 @@ function iniciarColecoes() {
     renderizarColecoes();
 }
 
+
+
+// ----- Coleções: criar, editar e excluir -----
+
+// Guardam qual coleção está sendo editada ou aguardando confirmação de exclusão.
+let idColecaoEmEdicao = null;
+let idColecaoParaExcluir = null;
+
+// Verifica se o usuário já tem uma coleção com esse nome (sem diferenciar maiúsculas).
+function nomeColecaoJaExiste(colecoes, usuarioId, nome, ignorarId) {
+    const alvo = nome.toLocaleLowerCase("pt-BR");
+
+    return colecoes.some(
+        (colecao) =>
+            colecao.usuarioId === usuarioId &&
+            colecao.id !== ignorarId &&
+            colecao.nome.toLocaleLowerCase("pt-BR") === alvo
+    );
+}
+
+// Busca a coleção do card clicado, garantindo que pertence ao usuário logado.
+function obterColecaoDoCard(elemento) {
+    const card = elemento.closest(".card-colecao");
+    const usuario = obterUsuarioLogado();
+
+    if (!card || !usuario) {
+        return null;
+    }
+
+    return (
+        carregarColecoes().find(
+            (colecao) =>
+                colecao.id === card.dataset.id && colecao.usuarioId === usuario.id
+        ) || null
+    );
+}
+
+// Abre o formulário vazio (criar) ou preenchido com a coleção (editar).
+function abrirFormularioColecao(colecao = null) {
+    const secao = document.getElementById("formulario-colecao");
+    const formulario = document.getElementById("formulario-criar-colecao");
+    const campoNome = document.getElementById("nome-colecao");
+    const campoDescricao = document.getElementById("descricao-colecao");
+    const campoTipo = document.getElementById("tipo-colecao");
+
+    limparErrosFormulario(formulario);
+    formulario.reset();
+    idColecaoEmEdicao = colecao ? colecao.id : null;
+
+    if (colecao) {
+        campoNome.value = colecao.nome;
+        campoDescricao.value = colecao.descricao;
+        campoTipo.value = colecao.tipo;
+        campoTipo.title = "O tipo não pode ser alterado depois de criada a coleção.";
+    } else {
+        campoTipo.removeAttribute("title");
+    }
+
+    // O tipo fica bloqueado na edição para não misturar músicas e álbuns.
+    campoTipo.disabled = Boolean(colecao);
+
+    document.getElementById("titulo-formulario-colecao").textContent =
+        colecao ? "Editar coleção" : "Criar coleção";
+    formulario.querySelector('button[type="submit"]').textContent =
+        colecao ? "Salvar alterações" : "Criar coleção";
+
+    secao.hidden = false;
+    document.getElementById("botao-nova-colecao").setAttribute("aria-expanded", "true");
+    secao.scrollIntoView({ behavior: "smooth", block: "start" });
+    campoNome.focus({ preventScroll: true });
+}
+
+function fecharFormularioColecao() {
+    const formulario = document.getElementById("formulario-criar-colecao");
+
+    limparErrosFormulario(formulario);
+    formulario.reset();
+    idColecaoEmEdicao = null;
+
+    document.getElementById("tipo-colecao").disabled = false;
+    document.getElementById("formulario-colecao").hidden = true;
+    document.getElementById("botao-nova-colecao").setAttribute("aria-expanded", "false");
+}
+
+// O botão "+ Nova coleção" abre o formulário de criação ou fecha, se já estiver aberto.
+function alternarFormularioColecao() {
+    const aberto = !document.getElementById("formulario-colecao").hidden;
+
+    if (aberto && idColecaoEmEdicao === null) {
+        fecharFormularioColecao();
+    } else {
+        abrirFormularioColecao();
+    }
+}
+
+// Valida e salva (cria ou atualiza) a coleção do formulário.
+function salvarFormularioColecao(evento) {
+    evento.preventDefault();
+
+    const formulario = evento.target;
+    const mensagem = document.getElementById("mensagem-colecoes");
+    const usuario = obterUsuarioLogado();
+
+    limparErrosFormulario(formulario);
+    mostrarMensagem(mensagem, "");
+
+    if (!usuario) {
+        window.location.replace("login.html");
+        return;
+    }
+
+    const campoNome = document.getElementById("nome-colecao");
+    const campoTipo = document.getElementById("tipo-colecao");
+    const nome = campoNome.value.trim().replace(/\s+/g, " ");
+    const descricao = document.getElementById("descricao-colecao").value.trim();
+    const tipo = campoTipo.value;
+
+    const colecoes = carregarColecoes();
+    const erros = [];
+
+    if (nome === "") {
+        erros.push([campoNome, "Informe o nome da coleção."]);
+    } else if (nomeColecaoJaExiste(colecoes, usuario.id, nome, idColecaoEmEdicao)) {
+        erros.push([campoNome, "Você já tem uma coleção com esse nome."]);
+    }
+
+    if (!TIPOS_COLECAO.includes(tipo)) {
+        erros.push([campoTipo, "Escolha um tipo válido."]);
+    }
+
+    if (exibirErros(erros, mensagem)) {
+        return;
+    }
+
+    let textoSucesso;
+
+    if (idColecaoEmEdicao) {
+        const colecao = colecoes.find(
+            (item) => item.id === idColecaoEmEdicao && item.usuarioId === usuario.id
+        );
+
+        if (!colecao) {
+            mostrarMensagem(mensagem, "Coleção não encontrada.", "erro");
+            fecharFormularioColecao();
+            renderizarColecoes();
+            return;
+        }
+
+        colecao.nome = nome;
+        colecao.descricao = descricao;
+        textoSucesso = "Coleção atualizada.";
+    } else {
+        colecoes.push({
+            id: gerarId(),
+            usuarioId: usuario.id,
+            nome,
+            descricao,
+            tipo,
+            criadaEm: new Date().toISOString(),
+            itens: [],
+        });
+        textoSucesso = "Coleção criada.";
+    }
+
+    if (!salvarColecoes(colecoes)) {
+        mostrarMensagem(
+            mensagem,
+            "Não foi possível salvar. Verifique o armazenamento do navegador.",
+            "erro"
+        );
+        return;
+    }
+
+    fecharFormularioColecao();
+    renderizarColecoes();
+    mostrarMensagem(mensagem, textoSucesso, "sucesso");
+}
+
+// Abre a confirmação de exclusão.
+function abrirDialogoExclusao(colecao) {
+    idColecaoParaExcluir = colecao.id;
+
+    document.getElementById("texto-dialogo-excluir").textContent =
+        `A coleção "${colecao.nome}" será excluída. Essa ação não pode ser desfeita.`;
+    document.getElementById("dialogo-excluir").showModal();
+}
+
+// Exclui a coleção confirmada e atualiza o armazenamento e a tela.
+function confirmarExclusao() {
+    const id = idColecaoParaExcluir;
+    const usuario = obterUsuarioLogado();
+    const mensagem = document.getElementById("mensagem-colecoes");
+    const dialogo = document.getElementById("dialogo-excluir");
+
+    const colecoes = carregarColecoes();
+    const restantes = colecoes.filter(
+        (colecao) => !(colecao.id === id && usuario && colecao.usuarioId === usuario.id)
+    );
+
+    dialogo.close();
+
+    if (restantes.length === colecoes.length) {
+        mostrarMensagem(mensagem, "Coleção não encontrada.", "erro");
+        renderizarColecoes();
+        return;
+    }
+
+    if (!salvarColecoes(restantes)) {
+        mostrarMensagem(
+            mensagem,
+            "Não foi possível excluir. Verifique o armazenamento do navegador.",
+            "erro"
+        );
+        return;
+    }
+
+    if (idColecaoEmEdicao === id) {
+        fecharFormularioColecao();
+    }
+
+    renderizarColecoes();
+    mostrarMensagem(mensagem, "Coleção excluída.", "sucesso");
+}
+
+// Trata os botões dos cards (os cards são criados dinamicamente: delegação de eventos).
+function tratarCliqueGrade(evento) {
+    const botao = evento.target.closest("button");
+
+    if (!botao) {
+        return;
+    }
+
+    const ehEditar = botao.classList.contains("botao-editar");
+    const ehExcluir = botao.classList.contains("botao-excluir");
+
+    if (!ehEditar && !ehExcluir) {
+        return;
+    }
+
+    const colecao = obterColecaoDoCard(botao);
+
+    if (!colecao) {
+        return;
+    }
+
+    if (ehEditar) {
+        abrirFormularioColecao(colecao);
+    } else {
+        abrirDialogoExclusao(colecao);
+    }
+}
+
+function iniciarColecoes() {
+    renderizarColecoes();
+
+    document
+        .getElementById("botao-nova-colecao")
+        .addEventListener("click", alternarFormularioColecao);
+    document
+        .getElementById("botao-cancelar-colecao")
+        .addEventListener("click", fecharFormularioColecao);
+    document
+        .getElementById("formulario-criar-colecao")
+        .addEventListener("submit", salvarFormularioColecao);
+    document
+        .getElementById("grade-colecoes")
+        .addEventListener("click", tratarCliqueGrade);
+
+    const dialogo = document.getElementById("dialogo-excluir");
+
+    document
+        .getElementById("botao-cancelar-exclusao")
+        .addEventListener("click", () => dialogo.close());
+    document
+        .getElementById("botao-confirmar-exclusao")
+        .addEventListener("click", confirmarExclusao);
+
+    // Fechar o diálogo (Cancelar ou Esc) descarta a exclusão pendente.
+    dialogo.addEventListener("close", () => {
+        idColecaoParaExcluir = null;
+    });
+}
+
 // ----- Inicialização -----
 
 // O defer garante que o HTML esteja carregado antes da execução.

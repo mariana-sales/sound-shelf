@@ -79,6 +79,7 @@
                 class="botao"
                 id="botao-nova-colecao"
                 aria-controls="formulario-colecao"
+                aria-expanded="false"
             >
                 + Nova coleção
             </button>
@@ -92,6 +93,7 @@
             class="formulario-colecao"
             id="formulario-colecao"
             aria-labelledby="titulo-formulario-colecao"
+            hidden
         >
 
             <header class="cabecalho-secao">
@@ -102,7 +104,7 @@
 
             </header>
 
-            <form id="formulario-criar-colecao">
+            <form id="formulario-criar-colecao" novalidate>
 
                 <!-- Nome da coleção -->
                 <div class="campo-formulario">
@@ -294,6 +296,39 @@
         </section>
 
     </main>
+
+    <!-- Confirmação de exclusão (aberta pelo JavaScript) -->
+    <dialog
+        class="dialogo"
+        id="dialogo-excluir"
+        aria-labelledby="titulo-dialogo-excluir"
+    >
+
+        <h2 id="titulo-dialogo-excluir">Excluir coleção?</h2>
+
+        <p id="texto-dialogo-excluir"></p>
+
+        <div class="acoes-formulario">
+
+            <button
+                type="button"
+                class="botao-secundario"
+                id="botao-cancelar-exclusao"
+            >
+                Cancelar
+            </button>
+
+            <button
+                type="button"
+                class="botao-excluir"
+                id="botao-confirmar-exclusao"
+            >
+                Excluir
+            </button>
+
+        </div>
+
+    </dialog>
 
     <!-- Rodapé: padrão do Sound Shelf -->
     <footer class="rodape">
