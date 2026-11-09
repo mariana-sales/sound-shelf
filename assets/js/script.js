@@ -1227,7 +1227,7 @@ function itemDoResultado(resultado, tipo) {
         return null;
     }
 
-    const ano = new Date(resultado.releaseDate).getFullYear();
+    const ano = new Date(resultado.releaseDate).getUTCFullYear();
 
     return {
         idExterno: String(id),
@@ -1240,12 +1240,12 @@ function itemDoResultado(resultado, tipo) {
 }
 
 // Busca músicas ou álbuns na API e devolve a lista de itens.
-async function buscarNoItunes(termo, tipo) {
+async function buscarNoItunes(termo, tipo, limite = 24) {
     const parametros = new URLSearchParams({
         term: termo,
         media: "music",
         entity: CONFIG_BUSCA[tipo].entidade,
-        limit: "24",
+        limit: String(limite),
         country: "BR",
     });
 
@@ -1467,6 +1467,88 @@ function iniciarBusca() {
 }
 
 
+// ----- Home: capas reais (iTunes) -----
+
+// Cada chave é usada no HTML da home (data-capa, data-titulo, data-artista, data-detalhe).
+const DESTAQUES_HOME = {
+    "faixa": { tipo: "musicas", termo: "Bohemian Rhapsody Queen" },
+    "album-a": { tipo: "albuns", termo: "Abbey Road The Beatles" },
+    "album-b": { tipo: "albuns", termo: "Rumours Fleetwood Mac" },
+    "album-c": { tipo: "albuns", termo: "Random Access Memories Daft Punk" },
+    "album-d": { tipo: "albuns", termo: "Acabou Chorare Novos Baianos" },
+    "album-e": { tipo: "albuns", termo: "Currents Tame Impala" },
+    "album-f": { tipo: "albuns", termo: "Thriller Michael Jackson" },
+};
+
+const CHAVE_CACHE_DESTAQUES = "soundshelf:destaques-home";
+
+// Troca capa e textos da home pelos dados reais do item.
+function aplicarDestaqueHome(chave, item) {
+    document.querySelectorAll(`[data-capa="${chave}"]`).forEach((imagem) => {
+        if (!item.capa) {
+            return;
+        }
+
+        // Se a capa nova falhar, volta para a imagem original da página.
+        const original = imagem.getAttribute("src");
+        imagem.addEventListener(
+            "error",
+            () => {
+                imagem.src = original;
+            },
+            { once: true }
+        );
+
+        imagem.src = item.capa;
+
+        if (!imagem.hasAttribute("data-manter-alt")) {
+            imagem.alt = `Capa de ${item.titulo}`;
+        }
+    });
+
+    document.querySelectorAll(`[data-titulo="${chave}"]`).forEach((elemento) => {
+        elemento.textContent = item.titulo;
+    });
+
+    document.querySelectorAll(`[data-artista="${chave}"]`).forEach((elemento) => {
+        elemento.textContent = item.artista;
+    });
+
+    document.querySelectorAll(`[data-detalhe="${chave}"]`).forEach((elemento) => {
+        elemento.textContent = [item.artista, item.genero, item.ano].filter(Boolean).join(" · ");
+    });
+}
+
+// Busca os itens em destaque na API (guarda na sessão para não repetir as chamadas).
+// Se a API falhar, a página continua com as imagens e textos que já estão no HTML.
+async function iniciarCapasHome() {
+    const guardado = lerStorage(CHAVE_CACHE_DESTAQUES, {}, sessionStorage);
+    const destaques = guardado && typeof guardado === "object" ? guardado : {};
+
+    Object.keys(DESTAQUES_HOME).forEach((chave) => {
+        if (destaques[chave]) {
+            aplicarDestaqueHome(chave, destaques[chave]);
+        }
+    });
+
+    const pendentes = Object.keys(DESTAQUES_HOME).filter((chave) => !destaques[chave]);
+
+    await Promise.allSettled(
+        pendentes.map(async (chave) => {
+            const { termo, tipo } = DESTAQUES_HOME[chave];
+            const itens = await buscarNoItunes(termo, tipo, 1);
+
+            if (itens.length > 0) {
+                destaques[chave] = itens[0];
+                aplicarDestaqueHome(chave, itens[0]);
+            }
+        })
+    );
+
+    gravarStorage(CHAVE_CACHE_DESTAQUES, destaques, sessionStorage);
+}
+
+
 // ----- Inicialização -----
 
 // O defer garante que o HTML esteja carregado antes da execução.
@@ -1492,6 +1574,10 @@ function iniciar() {
 
     if (document.getElementById("resultados-busca")) {
         iniciarBusca();
+    }
+
+    if (document.getElementById("feed")) {
+        iniciarCapasHome();
     }
 }
 

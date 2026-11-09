@@ -2055,3 +2055,46 @@ select:disabled {
 .dialogo .estado-vazio p:last-child {
     margin-bottom: 0;
 }
+
+
+/* Capas reais da home (substituem a ilustração do topo) */
+.visual-apresentacao .capas-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 560px;
+    margin-left: auto;
+    padding-block: var(--espaco-5);
+}
+
+.visual-apresentacao .capas-hero img {
+    width: 38%;
+    max-width: none;
+    margin: 0;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--raio-grande);
+    filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.55));
+}
+
+.visual-apresentacao .capas-hero img:nth-child(1) {
+    margin-right: -6%;
+    transform: rotate(-8deg);
+}
+
+.visual-apresentacao .capas-hero img:nth-child(2) {
+    position: relative;
+    z-index: 1;
+    width: 44%;
+}
+
+.visual-apresentacao .capas-hero img:nth-child(3) {
+    margin-left: -6%;
+    transform: rotate(8deg);
+}
+
+@media (max-width: 1024px) {
+    .visual-apresentacao .capas-hero {
+        margin-inline: auto;
+    }
+}

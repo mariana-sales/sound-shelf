@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sound Shelf - Home</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="assets/img/favicon.png" type="image/png" sizes="180x180">
     <link rel="apple-touch-icon" href="assets/img/favicon.png">
     <script defer src="assets/js/script.js"></script>
@@ -98,7 +97,11 @@
             <!-- elemento visual -->
             <div class="visual-apresentacao">
 
-                <img src="assets/img/hero.png" alt="Capas de músicas em destaque">
+                <div class="capas-hero">
+                    <img src="assets/img/capa-1.png" alt="Capa de álbum" data-capa="album-b">
+                    <img src="assets/img/capa-2.png" alt="Capa de álbum" data-capa="album-a">
+                    <img src="assets/img/capa-3.png" alt="Capa de álbum" data-capa="album-c">
+                </div>
 
             </div>
 
@@ -153,12 +156,13 @@
                             <img
                                 src="assets/img/capa-1.png"
                                 alt="Capa ilustrativa da música Verão de Neon"
+                                data-capa="faixa"
                                 class="capa-publicacao"
                             >
 
                             <div class="informacoes-publicacao">
-                                <h3>Verão de Neon</h3>
-                                <p>Lumen Park · Synthpop · 2026</p>
+                                <h3 data-titulo="faixa">Verão de Neon</h3>
+                                <p data-detalhe="faixa">Lumen Park · Synthpop · 2026</p>
 
                                 <div class="avaliacao">
                                     ★★★★★
@@ -191,12 +195,13 @@
                                 <img
                                 src="assets/img/capa-2.png"
                                 alt="Capa ilustrativa do álbum Maré Alta"
+                                data-capa="album-d"
                                 class="capa-publicacao"
                                 >
 
                                 <div class="informacoes-publicacao">
-                                    <h3>Maré Alta</h3>
-                                    <p> Aurora Vale · Indie Folk · 2024</p>
+                                    <h3 data-titulo="album-d">Maré Alta</h3>
+                                    <p data-detalhe="album-d">Aurora Vale · Indie Folk · 2024</p>
 
                                     <div class="avaliacao">
                                         ★★★★☆
@@ -222,7 +227,7 @@
                             <div class="conteudo-publicacao">
 
                                 <div class="capa-colecao">
-                                    <img src="assets/img/capa-1.png" alt="Capa da coleção Melhores de 2026">
+                                    <img src="assets/img/capa-1.png" alt="Capa da coleção Melhores de 2026" data-capa="album-e" data-manter-alt>
                                 </div>
 
                                 <div class="informacoes-publicacao">
@@ -281,13 +286,14 @@
                                     <li class="item-destaque">
                                         <img 
                                             src="assets/img/capa-1.png" 
-                                            alt="Capa de Verão de Neon" 
+                                            alt="Capa de Verão de Neon"
+                                            data-capa="album-a" 
                                             class="capa-destaque"
                                         >
 
                                         <div class="informacoes-destaque">
-                                            <strong>Verão de Neon</strong>
-                                            <span>Lumen Park</span>
+                                            <strong data-titulo="album-a">Verão de Neon</strong>
+                                            <span data-artista="album-a">Lumen Park</span>
                                         </div>
 
                                         <span class="nota">4,8</span>
@@ -297,12 +303,13 @@
                                         <img
                                             src="assets/img/capa-2.png"
                                             alt="Capa de Maré Alta"
+                                            data-capa="album-b"
                                             class="capa-destaque"
                                         >
 
                                         <div class="informacoes-destaque">
-                                            <strong>Maré Alta</strong>
-                                            <span>Aurora Vale</span>
+                                            <strong data-titulo="album-b">Maré Alta</strong>
+                                            <span data-artista="album-b">Aurora Vale</span>
                                         </div>
 
                                         <span class="nota">4,3</span>
@@ -312,12 +319,13 @@
                                         <img
                                             src="assets/img/capa-3.png"
                                             alt="Capa de Quarto Escuro"
+                                            data-capa="album-c"
                                             class="capa-destaque"
                                         >
 
                                         <div class="informacoes-destaque">
-                                            <strong>Quarto Escuro</strong>
-                                            <span>Noa Reis</span>
+                                            <strong data-titulo="album-c">Quarto Escuro</strong>
+                                            <span data-artista="album-c">Noa Reis</span>
                                         </div>
 
                                         <span class="nota">4,1</span>
@@ -371,6 +379,7 @@
                                         <img
                                             src="assets/img/capa-6.png"
                                             alt="Capa da coleção Rock de garagem"
+                                            data-capa="album-f" data-manter-alt
                                             class="capa-colecao"
                                         >
 
@@ -385,6 +394,7 @@
                                         <img
                                             src="assets/img/capa-5.png"
                                             alt="Capa da coleção Sons para viajar"
+                                            data-capa="album-d" data-manter-alt
                                             class="capa-colecao"
                                         >
 
