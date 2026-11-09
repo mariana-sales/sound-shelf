@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Shelf - Buscar</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script defer src="assets/js/script.js"></script>
+</head>
+<body data-protegida>
+    <!-- cabeçalho/navegação -->
+    <header class="cabecalho">
+        <img src="assets/img/logo.png" alt="logo sound shelf">
+        <p class="logo">Sound Shelf</p>
+
+        <!-- navegacao principal -->
+        <nav class="nav-principal">
+            <a href="index.html" class="link">Home</a>
+            <a href="perfil.html" class="link" data-requer-login hidden>Perfil</a>
+            <a href="colecoes.html" class="link" data-requer-login hidden>Coleções</a>
+        </nav>
+
+        <!-- form de pesquisa -->
+        <form class="form-pesquisa" action="buscar.html">
+
+            <label for="pesquisa" class="input-estilo">
+                Pesquisar
+            </label>
+
+            <input
+                type="search"
+                id="pesquisa"
+                name="pesquisa"
+                placeholder="Pesquisar">
+
+            <button type="submit" class="botao">Buscar</button>
+        </form>
+
+        <!-- área da conta (o JavaScript mostra a versão de visitante ou de usuário logado) -->
+        <div class="area-conta">
+
+            <div class="acoes-conta" id="conta-visitante" hidden>
+                <a href="login.html" class="botao-secundario">Entrar</a>
+                <a href="cadastro.html" class="botao">Criar conta</a>
+            </div>
+
+            <div class="acoes-conta" id="conta-logado" hidden>
+                <a href="perfil.html" class="link-perfil" id="link-conta">
+                    <img src="assets/img/avatar.png" alt="Foto de perfil do usuário">
+                </a>
+                <span class="nome-conta" id="nome-conta"></span>
+                <button type="button" class="botao-secundario" id="botao-sair">Sair</button>
+            </div>
+
+        </div>
+    </header>
+
+
+    <main>
+        <!-- Apresentação da página -->
+        <section class="cabecalho-pagina">
+
+            <div>
+
+                <p class="texto-pequeno">
+                    BUSCAR
+                </p>
+
+                <h1>Resultados da busca</h1>
+
+                <p id="resumo-busca">
+                    Pesquise músicas e álbuns pelo campo no topo da página.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- Mensagens de feedback (preenchidas pelo JavaScript) -->
+        <div id="mensagem-busca" role="status" aria-live="polite"></div>
+
+        <!-- Aparece quando a página é aberta sem termo de pesquisa -->
+        <div class="estado-vazio" id="busca-sem-termo" hidden>
+            <p>Nenhuma pesquisa feita ainda.</p>
+            <p>Digite uma música, um álbum ou um artista no campo do topo e clique em "Buscar".</p>
+        </div>
+
+        <div id="resultados-busca" hidden>
+
+            <!-- Abas: músicas e álbuns -->
+            <div class="navegacao-perfil abas-busca" role="tablist" aria-label="Tipo de resultado">
+
+                <button
+                    type="button"
+                    class="aba ativa"
+                    role="tab"
+                    id="aba-musicas"
+                    data-tipo="musicas"
+                    aria-selected="true"
+                    aria-controls="painel-musicas"
+                >
+                    Músicas <span id="contagem-musicas"></span>
+                </button>
+
+                <button
+                    type="button"
+                    class="aba"
+                    role="tab"
+                    id="aba-albuns"
+                    data-tipo="albuns"
+                    aria-selected="false"
+                    aria-controls="painel-albuns"
+                >
+                    Álbuns <span id="contagem-albuns"></span>
+                </button>
+
+            </div>
+
+            <!-- Painel de músicas -->
+            <section id="painel-musicas" role="tabpanel" aria-labelledby="aba-musicas">
+
+                <div class="estado-vazio" id="estado-musicas" hidden>
+                    <p id="texto-estado-musicas"></p>
+                    <button type="button" class="botao-secundario" id="botao-repetir-musicas" hidden>
+                        Tentar novamente
+                    </button>
+                </div>
+
+                <ul class="lista-resultados" id="lista-musicas"></ul>
+
+            </section>
+
+            <!-- Painel de álbuns -->
+            <section id="painel-albuns" role="tabpanel" aria-labelledby="aba-albuns" hidden>
+
+                <div class="estado-vazio" id="estado-albuns" hidden>
+                    <p id="texto-estado-albuns"></p>
+                    <button type="button" class="botao-secundario" id="botao-repetir-albuns" hidden>
+                        Tentar novamente
+                    </button>
+                </div>
+
+                <ul class="lista-resultados" id="lista-albuns"></ul>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Escolha da coleção de destino (aberto pelo JavaScript) -->
+    <dialog
+        class="dialogo"
+        id="dialogo-adicionar"
+        aria-labelledby="titulo-dialogo-adicionar"
+    >
+
+        <h2 id="titulo-dialogo-adicionar">Adicionar à coleção</h2>
+
+        <p id="texto-dialogo-adicionar"></p>
+
+        <div id="mensagem-dialogo-adicionar" role="status" aria-live="polite"></div>
+
+        <div class="campo-formulario" id="campo-colecao-destino">
+
+            <label for="colecao-destino">Coleção</label>
+
+            <select id="colecao-destino" name="colecao-destino"></select>
+
+        </div>
+
+        <!-- Aparece quando o usuário não tem coleção do tipo do item -->
+        <div class="estado-vazio" id="sem-colecao-compativel" hidden>
+            <p id="texto-sem-colecao"></p>
+            <a href="colecoes.html" class="link">Ir para Coleções</a>
+        </div>
+
+        <div class="acoes-formulario">
+
+            <button
+                type="button"
+                class="botao-secundario"
+                id="botao-cancelar-adicionar"
+            >
+                Cancelar
+            </button>
+
+            <button type="button" class="botao" id="botao-confirmar-adicionar">
+                Adicionar
+            </button>
+
+        </div>
+
+    </dialog>
+
+    <!-- Rodapé: padrão do Sound Shelf -->
+    <footer class="rodape">
+
+        <p>Projeto acadêmico</p>
+
+        <p>&copy; 2026 Sound Shelf</p>
+
+    </footer>
+
+</body>
+</html>

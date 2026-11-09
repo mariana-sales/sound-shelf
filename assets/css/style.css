@@ -1983,3 +1983,75 @@ select:disabled {
         justify-content: flex-start;
     }
 }
+
+
+/* Busca na API (buscar.html) */
+.abas-busca .aba {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.abas-busca .aba.ativa {
+    background-color: var(--cor-destaque);
+}
+
+.lista-resultados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--espaco-4);
+}
+
+.resultado-busca {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: var(--espaco-4);
+    padding: var(--espaco-3);
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+}
+
+.resultado-busca .capa-item {
+    width: 96px;
+    height: 96px;
+    border-radius: var(--raio-medio);
+}
+
+.texto-resultado {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+    min-width: 0;
+}
+
+.texto-resultado strong,
+.texto-resultado span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.texto-resultado span {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.texto-resultado button {
+    align-self: flex-start;
+    margin-top: auto;
+    padding: var(--espaco-1) var(--espaco-3);
+    font-size: var(--texto-pequeno);
+}
+
+#mensagem-dialogo-adicionar .mensagem-formulario {
+    margin-top: 0;
+}
+
+.dialogo .estado-vazio {
+    margin-bottom: var(--espaco-5);
+}
+
+.dialogo .estado-vazio p:last-child {
+    margin-bottom: 0;
+}

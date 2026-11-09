@@ -543,6 +543,9 @@ function criarCardColecao(colecao) {
 
     const capas = criarElemento("div", "capas-colecao");
 
+    // Mosaico com as capas dos 4 primeiros itens da coleção.
+    itens.slice(0, 4).forEach((item) => capas.append(criarImagemCapa(item.capa, "")));
+
     const informacoes = criarElemento("div", "informacoes-colecao");
     informacoes.append(criarElemento("h3", "", colecao.nome));
 
@@ -991,7 +994,7 @@ function formatarDataCriacao(dataIso) {
 function criarImagemCapa(capa, titulo) {
     const imagem = criarElemento("img", "capa-item");
 
-    imagem.alt = titulo ? `Capa de ${titulo}` : "Capa do item";
+    imagem.alt = titulo ? `Capa de ${titulo}` : "";
     imagem.loading = "lazy";
 
     // O evento error não propaga: precisa ser ligado em cada imagem.
@@ -1193,6 +1196,277 @@ function iniciarDetalhesColecao() {
 }
 
 
+// ----- Busca na API (iTunes) -----
+
+const URL_ITUNES = "https://itunes.apple.com/search";
+
+const CONFIG_BUSCA = {
+    musicas: { entidade: "song", rotulo: "músicas" },
+    albuns: { entidade: "album", rotulo: "álbuns" },
+};
+
+// Guarda o item que está sendo adicionado e o tipo da aba em que ele apareceu.
+let itemParaAdicionar = null;
+
+// O iTunes devolve a capa em 100x100; troca o tamanho no endereço por um maior.
+function ampliarCapa(url) {
+    if (typeof url !== "string" || url === "") {
+        return "";
+    }
+
+    return url.replace(/\d+x\d+bb(?=\.)/, "300x300bb");
+}
+
+// Converte um resultado da API para o modelo de item guardado na coleção.
+function itemDoResultado(resultado, tipo) {
+    const ehMusica = tipo === "musicas";
+    const id = ehMusica ? resultado.trackId : resultado.collectionId;
+    const titulo = ehMusica ? resultado.trackName : resultado.collectionName;
+
+    if (!id || !titulo) {
+        return null;
+    }
+
+    const ano = new Date(resultado.releaseDate).getFullYear();
+
+    return {
+        idExterno: String(id),
+        titulo,
+        artista: resultado.artistName || "",
+        capa: ampliarCapa(resultado.artworkUrl100),
+        ano: Number.isNaN(ano) ? "" : ano,
+        genero: resultado.primaryGenreName || "",
+    };
+}
+
+// Busca músicas ou álbuns na API e devolve a lista de itens.
+async function buscarNoItunes(termo, tipo) {
+    const parametros = new URLSearchParams({
+        term: termo,
+        media: "music",
+        entity: CONFIG_BUSCA[tipo].entidade,
+        limit: "24",
+        country: "BR",
+    });
+
+    const resposta = await fetch(`${URL_ITUNES}?${parametros}`, {
+        signal: AbortSignal.timeout(10000),
+    });
+
+    if (!resposta.ok) {
+        throw new Error(`A API respondeu com o status ${resposta.status}.`);
+    }
+
+    const dados = await resposta.json();
+    const resultados = Array.isArray(dados.results) ? dados.results : [];
+
+    return resultados.map((resultado) => itemDoResultado(resultado, tipo)).filter(Boolean);
+}
+
+// Mostra o estado de uma aba: carregando, erro ou sem resultados (texto vazio esconde).
+function definirEstadoBusca(tipo, texto, comBotaoRepetir = false) {
+    document.getElementById(`estado-${tipo}`).hidden = texto === "";
+    document.getElementById(`texto-estado-${tipo}`).textContent = texto;
+    document.getElementById(`botao-repetir-${tipo}`).hidden = !comBotaoRepetir;
+}
+
+// Cria o card de um resultado da busca.
+function criarCardResultado(item, tipo) {
+    const card = criarElemento("li", "resultado-busca");
+
+    const texto = criarElemento("div", "texto-resultado");
+    texto.append(criarElemento("strong", "", item.titulo));
+
+    if (item.artista) {
+        texto.append(criarElemento("span", "", item.artista));
+    }
+
+    const detalhe = [item.ano, item.genero].filter(Boolean).join(" · ");
+
+    if (detalhe) {
+        texto.append(criarElemento("span", "", detalhe));
+    }
+
+    const botao = criarBotaoAcao("botao-secundario", "Adicionar à coleção");
+    botao.addEventListener("click", () => abrirDialogoAdicionar(item, tipo));
+    texto.append(botao);
+
+    card.append(criarImagemCapa(item.capa, item.titulo), texto);
+    return card;
+}
+
+// Faz a busca de uma aba e atualiza a tela (carregando, erro, vazio ou lista).
+async function carregarAbaBusca(termo, tipo) {
+    const lista = document.getElementById(`lista-${tipo}`);
+    const contagem = document.getElementById(`contagem-${tipo}`);
+
+    lista.replaceChildren();
+    contagem.textContent = "";
+    definirEstadoBusca(tipo, "Buscando...");
+
+    try {
+        const itens = await buscarNoItunes(termo, tipo);
+
+        if (itens.length === 0) {
+            definirEstadoBusca(tipo, `Nenhum resultado em ${CONFIG_BUSCA[tipo].rotulo} para esta busca.`);
+            return;
+        }
+
+        definirEstadoBusca(tipo, "");
+        contagem.textContent = `(${itens.length})`;
+        lista.replaceChildren(...itens.map((item) => criarCardResultado(item, tipo)));
+    } catch (erro) {
+        console.error(erro);
+        definirEstadoBusca(
+            tipo,
+            "Não foi possível buscar agora. Verifique sua conexão e tente novamente.",
+            true
+        );
+    }
+}
+
+// Alterna entre as abas de músicas e álbuns.
+function selecionarAbaBusca(tipo) {
+    Object.keys(CONFIG_BUSCA).forEach((chave) => {
+        const ativa = chave === tipo;
+        const aba = document.getElementById(`aba-${chave}`);
+
+        aba.classList.toggle("ativa", ativa);
+        aba.setAttribute("aria-selected", String(ativa));
+        document.getElementById(`painel-${chave}`).hidden = !ativa;
+    });
+}
+
+// Abre o diálogo para escolher a coleção (só as do mesmo tipo do item).
+function abrirDialogoAdicionar(item, tipo) {
+    const usuario = obterUsuarioLogado();
+
+    if (!usuario) {
+        window.location.replace("login.html");
+        return;
+    }
+
+    const compativeis = colecoesDoUsuario(usuario.id).filter(
+        (colecao) => colecao.tipo === tipo
+    );
+    const rotulo = CONFIG_BUSCA[tipo].rotulo;
+    const seletor = document.getElementById("colecao-destino");
+
+    itemParaAdicionar = { item, tipo };
+
+    mostrarMensagem(document.getElementById("mensagem-dialogo-adicionar"), "");
+    document.getElementById("texto-dialogo-adicionar").textContent =
+        `Escolha em qual coleção de ${rotulo} adicionar "${item.titulo}".`;
+
+    seletor.replaceChildren(
+        ...compativeis.map((colecao) => {
+            const opcao = criarElemento("option", "", colecao.nome);
+            opcao.value = colecao.id;
+            return opcao;
+        })
+    );
+
+    document.getElementById("campo-colecao-destino").hidden = compativeis.length === 0;
+    document.getElementById("sem-colecao-compativel").hidden = compativeis.length > 0;
+    document.getElementById("botao-confirmar-adicionar").disabled = compativeis.length === 0;
+    document.getElementById("texto-sem-colecao").textContent =
+        `Você ainda não tem uma coleção de ${rotulo}. Crie uma para poder adicionar este item.`;
+
+    document.getElementById("dialogo-adicionar").showModal();
+}
+
+// Adiciona uma cópia do item à coleção escolhida e salva no localStorage.
+function confirmarAdicao() {
+    const dialogo = document.getElementById("dialogo-adicionar");
+    const mensagemDialogo = document.getElementById("mensagem-dialogo-adicionar");
+    const usuario = obterUsuarioLogado();
+    const idColecao = document.getElementById("colecao-destino").value;
+
+    if (!itemParaAdicionar || !usuario) {
+        return;
+    }
+
+    const { item, tipo } = itemParaAdicionar;
+    const colecoes = carregarColecoes();
+    const colecao = colecoes.find(
+        (atual) => atual.id === idColecao && atual.usuarioId === usuario.id
+    );
+
+    if (!colecao || colecao.tipo !== tipo) {
+        mostrarMensagem(mensagemDialogo, "Escolha uma coleção válida.", "erro");
+        return;
+    }
+
+    if (!Array.isArray(colecao.itens)) {
+        colecao.itens = [];
+    }
+
+    if (colecao.itens.some((existente) => String(existente.idExterno) === item.idExterno)) {
+        mostrarMensagem(mensagemDialogo, "Este item já está nessa coleção.", "erro");
+        return;
+    }
+
+    colecao.itens.push({ ...item });
+
+    if (!salvarColecoes(colecoes)) {
+        colecao.itens.pop();
+        mostrarMensagem(
+            mensagemDialogo,
+            "Não foi possível salvar. Verifique o armazenamento do navegador.",
+            "erro"
+        );
+        return;
+    }
+
+    dialogo.close();
+    mostrarMensagem(
+        document.getElementById("mensagem-busca"),
+        `"${item.titulo}" foi adicionado à coleção "${colecao.nome}".`,
+        "sucesso"
+    );
+}
+
+function iniciarBusca() {
+    const termo = (new URLSearchParams(window.location.search).get("pesquisa") || "")
+        .trim()
+        .slice(0, 100);
+
+    document.getElementById("pesquisa").value = termo;
+
+    // Sem termo: mostra só a orientação.
+    if (termo === "") {
+        document.getElementById("busca-sem-termo").hidden = false;
+        return;
+    }
+
+    document.getElementById("resumo-busca").textContent = `Resultados para "${termo}"`;
+    document.getElementById("resultados-busca").hidden = false;
+
+    Object.keys(CONFIG_BUSCA).forEach((tipo) => {
+        document
+            .getElementById(`aba-${tipo}`)
+            .addEventListener("click", () => selecionarAbaBusca(tipo));
+        document
+            .getElementById(`botao-repetir-${tipo}`)
+            .addEventListener("click", () => carregarAbaBusca(termo, tipo));
+
+        carregarAbaBusca(termo, tipo);
+    });
+
+    const dialogo = document.getElementById("dialogo-adicionar");
+
+    document
+        .getElementById("botao-cancelar-adicionar")
+        .addEventListener("click", () => dialogo.close());
+    document
+        .getElementById("botao-confirmar-adicionar")
+        .addEventListener("click", confirmarAdicao);
+    dialogo.addEventListener("close", () => {
+        itemParaAdicionar = null;
+    });
+}
+
+
 // ----- Inicialização -----
 
 // O defer garante que o HTML esteja carregado antes da execução.
@@ -1214,6 +1488,10 @@ function iniciar() {
     if (document.getElementById("grade-colecoes")) {
         iniciarColecoes();
         iniciarDetalhesColecao();
+    }
+
+    if (document.getElementById("resultados-busca")) {
+        iniciarBusca();
     }
 }
 
