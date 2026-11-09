@@ -1863,6 +1863,11 @@ select:disabled {
     cursor: not-allowed;
 }
 
+/* Botão dentro do estado vazio (Limpar filtros) */
+.estado-vazio .botao-secundario {
+    margin-top: var(--espaco-4);
+}
+
 /* Ajustes para telas menores */
 @media (max-width: 1100px) {
     .nome-conta {

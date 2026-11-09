@@ -570,27 +570,79 @@ function criarCardColecao(colecao) {
     return card;
 }
 
-// Atualiza a lista de coleções.
+// ----- Coleções: pesquisa, filtro e ordenação -----
+
+// Remove acentos e maiúsculas para comparar textos.
+function normalizarTexto(texto) {
+    return texto
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+}
+
+function compararPorNome(a, b) {
+    return a.nome.localeCompare(b.nome, "pt-BR", { sensitivity: "base" });
+}
+
+function quantidadeDeItens(colecao) {
+    return Array.isArray(colecao.itens) ? colecao.itens.length : 0;
+}
+
+const ORDENACOES_COLECOES = {
+    recentes: (a, b) => b.criadaEm.localeCompare(a.criadaEm),
+    nome: compararPorNome,
+    quantidade: (a, b) =>
+        quantidadeDeItens(b) - quantidadeDeItens(a) || compararPorNome(a, b),
+};
+
+// Lê os valores atuais da pesquisa, do filtro e da ordenação.
+function lerControlesColecoes() {
+    return {
+        pesquisa: normalizarTexto(document.getElementById("pesquisar-colecoes").value),
+        tipo: document.getElementById("filtro-tipo").value,
+        ordem: document.getElementById("ordenar-colecoes").value,
+    };
+}
+
+// Aplica pesquisa e filtro e ordena. Devolve uma nova lista (a original não muda).
+function aplicarControlesColecoes(colecoes, controles) {
+    const comparar =
+        ORDENACOES_COLECOES[controles.ordem] || ORDENACOES_COLECOES.recentes;
+
+    return colecoes
+        .filter((colecao) => controles.tipo === "todos" || colecao.tipo === controles.tipo)
+        .filter((colecao) => normalizarTexto(colecao.nome).includes(controles.pesquisa))
+        .sort(comparar);
+}
+
+// Volta a pesquisa e o filtro ao padrão (a ordenação escolhida é mantida).
+function limparFiltrosColecoes() {
+    document.getElementById("pesquisar-colecoes").value = "";
+    document.getElementById("filtro-tipo").value = "todos";
+}
+
+// Atualiza a lista de coleções conforme os dados salvos e os controles.
 function renderizarColecoes() {
     const usuario = obterUsuarioLogado();
     const grade = document.getElementById("grade-colecoes");
     const contador = document.getElementById("quantidade-colecoes");
     const vazio = document.getElementById("colecoes-vazia");
+    const semResultado = document.getElementById("colecoes-sem-resultado");
 
-    // Exibe as coleções mais recentes primeiro.
-    const colecoes = (usuario ? colecoesDoUsuario(usuario.id) : []).sort(
-        (a, b) => b.criadaEm.localeCompare(a.criadaEm)
-    );
+    const todas = usuario ? colecoesDoUsuario(usuario.id) : [];
+    const visiveis = aplicarControlesColecoes(todas, lerControlesColecoes());
 
-    grade.replaceChildren(...colecoes.map(criarCardColecao));
-    contador.textContent = textoQuantidadeColecoes(colecoes.length);
-    vazio.hidden = colecoes.length > 0;
+    grade.replaceChildren(...visiveis.map(criarCardColecao));
+
+    contador.textContent =
+        visiveis.length === todas.length
+            ? textoQuantidadeColecoes(todas.length)
+            : `${visiveis.length} de ${textoQuantidadeColecoes(todas.length)}`;
+
+    vazio.hidden = todas.length > 0;
+    semResultado.hidden = todas.length === 0 || visiveis.length > 0;
 }
-
-function iniciarColecoes() {
-    renderizarColecoes();
-}
-
 
 
 // ----- Coleções: criar, editar e excluir -----
@@ -752,6 +804,7 @@ function salvarFormularioColecao(evento) {
             criadaEm: new Date().toISOString(),
             itens: [],
         });
+        limparFiltrosColecoes(); // garante que a nova coleção apareça na lista
         textoSucesso = "Coleção criada.";
     }
 
@@ -845,6 +898,29 @@ function tratarCliqueGrade(evento) {
 
 function iniciarColecoes() {
     renderizarColecoes();
+
+    // Pesquisa, filtro e ordenação
+    document
+        .getElementById("pesquisar-colecoes")
+        .addEventListener("input", renderizarColecoes);
+    document
+        .getElementById("filtro-tipo")
+        .addEventListener("change", renderizarColecoes);
+    document
+        .getElementById("ordenar-colecoes")
+        .addEventListener("change", renderizarColecoes);
+
+    // Enter no campo de pesquisa não deve recarregar a página.
+    document
+        .getElementById("formulario-pesquisa-colecoes")
+        .addEventListener("submit", (evento) => evento.preventDefault());
+
+    document
+        .getElementById("botao-limpar-filtros")
+        .addEventListener("click", () => {
+            limparFiltrosColecoes();
+            renderizarColecoes();
+        });
 
     document
         .getElementById("botao-nova-colecao")
