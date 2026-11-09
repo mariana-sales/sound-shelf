@@ -339,6 +339,49 @@
 
     </dialog>
 
+        <!-- Detalhes da coleção (aberto pelo JavaScript) -->
+    <dialog
+        class="dialogo dialogo-detalhes"
+        id="dialogo-detalhes"
+        aria-labelledby="titulo-detalhes-colecao"
+    >
+
+        <header class="cabecalho-detalhes-colecao">
+
+            <p class="texto-pequeno" id="tipo-detalhes-colecao"></p>
+
+            <h2 id="titulo-detalhes-colecao"></h2>
+
+            <p id="descricao-detalhes-colecao"></p>
+
+            <p class="data-detalhes-colecao" id="data-detalhes-colecao"></p>
+
+        </header>
+
+        <!-- Feedback da remoção de itens -->
+        <div id="mensagem-detalhes" role="status" aria-live="polite"></div>
+
+        <ul class="lista-itens-colecao" id="lista-itens-colecao"></ul>
+
+        <!-- Estado vazio: coleção sem itens -->
+        <div class="estado-vazio" id="itens-vazio" hidden>
+            <p>Esta coleção ainda não tem itens.</p>
+        </div>
+
+        <div class="acoes-formulario">
+
+            <button
+                type="button"
+                class="botao-secundario"
+                id="botao-fechar-detalhes"
+            >
+                Fechar
+            </button>
+
+        </div>
+
+    </dialog>
+
     <!-- Rodapé: padrão do Sound Shelf -->
     <footer class="rodape">
 

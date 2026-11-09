@@ -876,10 +876,11 @@ function tratarCliqueGrade(evento) {
         return;
     }
 
+    const ehVer = botao.classList.contains("botao-visualizar-colecao");
     const ehEditar = botao.classList.contains("botao-editar");
     const ehExcluir = botao.classList.contains("botao-excluir");
 
-    if (!ehEditar && !ehExcluir) {
+    if (!ehVer && !ehEditar && !ehExcluir) {
         return;
     }
 
@@ -889,7 +890,9 @@ function tratarCliqueGrade(evento) {
         return;
     }
 
-    if (ehEditar) {
+    if (ehVer) {
+        abrirDialogoDetalhes(colecao);
+    } else if (ehEditar) {
         abrirFormularioColecao(colecao);
     } else {
         abrirDialogoExclusao(colecao);
@@ -950,6 +953,246 @@ function iniciarColecoes() {
     });
 }
 
+// ----- Coleções: detalhes -----
+
+const IMAGEM_RESERVA = "assets/img/capa-reserva.svg";
+
+// Guardam qual coleção está aberta no diálogo e qual item aguarda confirmação de remoção.
+let idColecaoEmDetalhe = null;
+let idItemParaRemover = null;
+
+// Busca a coleção aberta no diálogo, garantindo que pertence ao usuário logado.
+function obterColecaoEmDetalhe() {
+    const usuario = obterUsuarioLogado();
+
+    if (!usuario || !idColecaoEmDetalhe) {
+        return null;
+    }
+
+    return (
+        carregarColecoes().find(
+            (colecao) =>
+                colecao.id === idColecaoEmDetalhe && colecao.usuarioId === usuario.id
+        ) || null
+    );
+}
+
+function formatarDataCriacao(dataIso) {
+    const data = new Date(dataIso);
+
+    if (Number.isNaN(data.getTime())) {
+        return "";
+    }
+
+    return `Criada em ${data.toLocaleDateString("pt-BR")}`;
+}
+
+// Cria a imagem da capa; sem capa ou com capa quebrada, usa a imagem de reserva.
+function criarImagemCapa(capa, titulo) {
+    const imagem = criarElemento("img", "capa-item");
+
+    imagem.alt = titulo ? `Capa de ${titulo}` : "Capa do item";
+    imagem.loading = "lazy";
+
+    // O evento error não propaga: precisa ser ligado em cada imagem.
+    imagem.addEventListener(
+        "error",
+        () => {
+            imagem.src = IMAGEM_RESERVA;
+        },
+        { once: true }
+    );
+
+    imagem.src = typeof capa === "string" && capa !== "" ? capa : IMAGEM_RESERVA;
+    return imagem;
+}
+
+// Cria a linha de um item. O botão muda para "Confirmar remoção" no primeiro clique.
+function criarLinhaItem(item) {
+    const id = String(item.idExterno);
+    const aguardandoConfirmacao = id === idItemParaRemover;
+
+    const linha = criarElemento("li", "item-colecao");
+    linha.dataset.idExterno = id;
+
+    const texto = criarElemento("div", "texto-item-colecao");
+    texto.append(criarElemento("strong", "", item.titulo || "Sem título"));
+
+    const detalhe = [item.artista, item.ano].filter(Boolean).join(" · ");
+
+    if (detalhe) {
+        texto.append(criarElemento("span", "", detalhe));
+    }
+
+    const acoes = criarElemento("div", "acoes-item-colecao");
+
+    if (aguardandoConfirmacao) {
+        acoes.append(
+            criarBotaoAcao("botao-excluir botao-confirmar-remocao", "Confirmar remoção"),
+            criarBotaoAcao("botao-secundario botao-cancelar-remocao", "Cancelar")
+        );
+    } else {
+        acoes.append(criarBotaoAcao("botao-secundario botao-remover-item", "Remover"));
+    }
+
+    linha.append(criarImagemCapa(item.capa, item.titulo), texto, acoes);
+    return linha;
+}
+
+// Atualiza a lista de itens do diálogo e o estado vazio.
+function renderizarItensDetalhes(colecao) {
+    const itens = Array.isArray(colecao.itens) ? colecao.itens : [];
+    const lista = document.getElementById("lista-itens-colecao");
+
+    lista.replaceChildren(...itens.map(criarLinhaItem));
+    lista.hidden = itens.length === 0;
+    document.getElementById("itens-vazio").hidden = itens.length > 0;
+}
+
+// Abre o diálogo com os dados da coleção.
+function abrirDialogoDetalhes(colecao) {
+    const rotulo = ROTULOS_TIPO[colecao.tipo] || ROTULOS_TIPO.musicas;
+
+    idColecaoEmDetalhe = colecao.id;
+    idItemParaRemover = null;
+
+    mostrarMensagem(document.getElementById("mensagem-detalhes"), "");
+
+    document.getElementById("titulo-detalhes-colecao").textContent = colecao.nome;
+    document.getElementById("descricao-detalhes-colecao").textContent =
+        colecao.descricao || "Sem descrição.";
+    document.getElementById("tipo-detalhes-colecao").textContent =
+        rotulo.plural.charAt(0).toUpperCase() + rotulo.plural.slice(1);
+    document.getElementById("data-detalhes-colecao").textContent =
+        formatarDataCriacao(colecao.criadaEm);
+
+    renderizarItensDetalhes(colecao);
+    document.getElementById("dialogo-detalhes").showModal();
+}
+
+// Remove o item confirmado e atualiza o armazenamento, o diálogo e o card da lista.
+function removerItemDaColecao(idItem) {
+    const mensagem = document.getElementById("mensagem-detalhes");
+    const colecoes = carregarColecoes();
+    const usuario = obterUsuarioLogado();
+
+    const colecao = colecoes.find(
+        (item) =>
+            item.id === idColecaoEmDetalhe && usuario && item.usuarioId === usuario.id
+    );
+
+    if (!colecao) {
+        mostrarMensagem(mensagem, "Coleção não encontrada.", "erro");
+        return;
+    }
+
+    const itens = Array.isArray(colecao.itens) ? colecao.itens : [];
+    const restantes = itens.filter((item) => String(item.idExterno) !== idItem);
+
+    idItemParaRemover = null;
+
+    if (restantes.length === itens.length) {
+        renderizarItensDetalhes(colecao);
+        mostrarMensagem(mensagem, "Item não encontrado.", "erro");
+        return;
+    }
+
+    colecao.itens = restantes;
+
+    if (!salvarColecoes(colecoes)) {
+        mostrarMensagem(
+            mensagem,
+            "Não foi possível remover. Verifique o armazenamento do navegador.",
+            "erro"
+        );
+        return;
+    }
+
+    renderizarItensDetalhes(colecao);
+    renderizarColecoes();
+    mostrarMensagem(mensagem, "Item removido.", "sucesso");
+    document.getElementById("botao-fechar-detalhes").focus();
+}
+
+// Trata os botões da lista de itens (os itens são criados dinamicamente: delegação).
+function tratarCliqueItens(evento) {
+    const botao = evento.target.closest("button");
+    const linha = evento.target.closest(".item-colecao");
+
+    if (!botao || !linha) {
+        return;
+    }
+
+    const idItem = linha.dataset.idExterno;
+    const colecao = obterColecaoEmDetalhe();
+
+    if (!colecao) {
+        return;
+    }
+
+    if (botao.classList.contains("botao-remover-item")) {
+        // Primeiro clique: pede confirmação.
+        idItemParaRemover = idItem;
+        mostrarMensagem(document.getElementById("mensagem-detalhes"), "");
+        renderizarItensDetalhes(colecao);
+        document.querySelector(".botao-confirmar-remocao").focus();
+    } else if (botao.classList.contains("botao-confirmar-remocao")) {
+        removerItemDaColecao(idItem);
+    } else if (botao.classList.contains("botao-cancelar-remocao")) {
+        idItemParaRemover = null;
+        renderizarItensDetalhes(colecao);
+    }
+}
+
+function iniciarDetalhesColecao() {
+    const dialogo = document.getElementById("dialogo-detalhes");
+
+    // O clique no fundo escuro (fora do diálogo) também fecha.
+    // Só fecha se o botão foi pressionado e solto fora, para não fechar ao selecionar texto.
+    let pressionadoFora = false;
+
+    const clicouFora = (evento) => {
+        if (evento.target !== dialogo) {
+            return false;
+        }
+
+        const area = dialogo.getBoundingClientRect();
+
+        return (
+            evento.clientX < area.left ||
+            evento.clientX > area.right ||
+            evento.clientY < area.top ||
+            evento.clientY > area.bottom
+        );
+    };
+
+    dialogo.addEventListener("mousedown", (evento) => {
+        pressionadoFora = clicouFora(evento);
+    });
+
+    dialogo.addEventListener("click", (evento) => {
+        if (pressionadoFora && clicouFora(evento)) {
+            dialogo.close();
+        }
+
+        pressionadoFora = false;
+    });
+
+    document
+        .getElementById("botao-fechar-detalhes")
+        .addEventListener("click", () => dialogo.close());
+    document
+        .getElementById("lista-itens-colecao")
+        .addEventListener("click", tratarCliqueItens);
+
+    // Fechar (botão, Esc ou clique fora) descarta a remoção pendente.
+    dialogo.addEventListener("close", () => {
+        idColecaoEmDetalhe = null;
+        idItemParaRemover = null;
+    });
+}
+
+
 // ----- Inicialização -----
 
 // O defer garante que o HTML esteja carregado antes da execução.
@@ -970,6 +1213,7 @@ function iniciar() {
 
     if (document.getElementById("grade-colecoes")) {
         iniciarColecoes();
+        iniciarDetalhesColecao();
     }
 }
 

@@ -1880,3 +1880,106 @@ select:disabled {
         margin-left: auto;
     }
 }
+
+
+/* Detalhes da coleção (diálogo) */
+.dialogo-detalhes {
+    width: min(92vw, 640px);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.cabecalho-detalhes-colecao {
+    margin-bottom: var(--espaco-4);
+}
+
+.cabecalho-detalhes-colecao p {
+    margin-bottom: 0;
+}
+
+.cabecalho-detalhes-colecao .texto-pequeno {
+    margin-bottom: var(--espaco-1);
+}
+
+.cabecalho-detalhes-colecao h2 {
+    margin-bottom: var(--espaco-2);
+}
+
+.cabecalho-detalhes-colecao #descricao-detalhes-colecao {
+    margin-bottom: var(--espaco-2);
+    color: var(--cor-texto);
+}
+
+.data-detalhes-colecao {
+    font-size: var(--texto-pequeno);
+}
+
+.lista-itens-colecao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-5);
+}
+
+.item-colecao {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--espaco-3);
+    padding: var(--espaco-2);
+    background-color: var(--cor-superficie-hover);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+}
+
+.capa-item {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: var(--raio-pequeno);
+}
+
+.texto-item-colecao {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.texto-item-colecao strong,
+.texto-item-colecao span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.texto-item-colecao span {
+    color: var(--cor-texto-secundario);
+    font-size: var(--texto-pequeno);
+}
+
+.acoes-item-colecao {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--espaco-2);
+}
+
+.acoes-item-colecao button {
+    padding: var(--espaco-1) var(--espaco-3);
+    font-size: var(--texto-pequeno);
+}
+
+.dialogo-detalhes .estado-vazio {
+    margin-bottom: var(--espaco-5);
+}
+
+@media (max-width: 480px) {
+    .item-colecao {
+        grid-template-columns: 56px minmax(0, 1fr);
+    }
+
+    .acoes-item-colecao {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+    }
+}
