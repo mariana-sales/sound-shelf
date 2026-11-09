@@ -17,8 +17,8 @@
         <!-- navegacao principal -->
         <nav class="nav-principal">
             <a href="index.html" class="link ativo" aria-current="page">Home</a>
-            <a href="perfil.html" class="link">Perfil</a>
-            <a href="colecoes.html" class="link">Coleções</a>
+            <a href="perfil.html" class="link" data-requer-login hidden>Perfil</a>
+            <a href="colecoes.html" class="link" data-requer-login hidden>Coleções</a>
         </nav>
 
         <!-- form de pesquisa -->
@@ -36,12 +36,25 @@
 
             <button type="submit" class="botao">Buscar</button>
         </form>
-    </header>
 
-        <!-- Acesso ao perfil através do avatar -->
-        <a href="perfil.html" class="link-perfil">
-            <img src="assets/img/avatar.png" alt="Foto de perfil do usuário">
-        </a>
+        <!-- área da conta (o JavaScript mostra a versão de visitante ou de usuário logado) -->
+        <div class="area-conta">
+
+            <div class="acoes-conta" id="conta-visitante" hidden>
+                <a href="login.html" class="botao-secundario">Entrar</a>
+                <a href="cadastro.html" class="botao">Criar conta</a>
+            </div>
+
+            <div class="acoes-conta" id="conta-logado" hidden>
+                <a href="perfil.html" class="link-perfil" id="link-conta">
+                    <img src="assets/img/avatar.png" alt="Foto de perfil do usuário">
+                </a>
+                <span class="nome-conta" id="nome-conta"></span>
+                <button type="button" class="botao-secundario" id="botao-sair">Sair</button>
+            </div>
+
+        </div>
+    </header>
 
     <!-- conteúdo principal da página -->
     <main>
